@@ -18,7 +18,7 @@
               <q-card square bordered class="q-pa-lg shadow-1">
                 <q-card-section>
                   <q-form class="q-gutter-md">
-                    <q-input ref="inputRef" square filled clearable v-model="userName"
+                    <q-input ref="inputRef" square filled clearable v-model="username"
                     label="username"
                     style="width: 300px;" />
                     <q-input square filled clearable v-model="password" type="password"
@@ -40,19 +40,28 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
+import WorldTimeService from '../world-time/WorldTimeService';
+import AuthenticationService from './AuthenticationService';
 
 @Component({})
 export default class LoginPage extends Vue {
-  userName = '';
+  username = '';
 
   password = '';
 
+  worldTimeService = WorldTimeService;
+
+  authenticationService = AuthenticationService;
+
   async onSubmit(): Promise<void> {
-    this.$router.push('/');
+    const response = await this.authenticationService.login(this.username, this.password);
+    if (response) {
+      this.$router.push('/');
+    }
   }
 
   onReset(): void {
-    this.userName = '';
+    this.username = '';
     this.password = '';
   }
 }
