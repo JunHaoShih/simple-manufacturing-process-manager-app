@@ -54,10 +54,10 @@ import NavItem from 'src/components/NavItem.vue';
 export default class MainLayout extends Vue {
   essentialLinks = [
     {
-      title: 'Product Zipper',
-      caption: 'One click compress your product',
-      icon: 'folder_zip',
-      to: '/products',
+      title: 'Parts management',
+      caption: 'Manage your parts',
+      icon: 'settings',
+      to: '/parts',
     },
   ];
 

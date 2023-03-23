@@ -97,6 +97,9 @@ module.exports = configure((/* ctx */) => ({
 
   // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
   devServer: {
+    proxy: {
+      '/api': 'http://localhost:8080',
+    },
     // https: true
     open: true, // opens browser window automatically
   },
@@ -116,7 +119,7 @@ module.exports = configure((/* ctx */) => ({
     // directives: [],
 
     // Quasar plugins
-    plugins: [],
+    plugins: ['Notify'],
   },
 
   // animations: 'all', // --- includes all animations

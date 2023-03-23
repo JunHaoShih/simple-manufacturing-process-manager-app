@@ -13,9 +13,9 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' });
+const api = axios.create();
 
-export default boot(({ app }) => {
+export default boot(({ app, router }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
@@ -25,6 +25,24 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api;
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
+
+  api.interceptors.request.use((config) => {
+    // Add token to header if exist
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  }, (error) => Promise.reject(error));
+
+  api.interceptors.response.use((response) => response, async (error) => {
+    // Remove token and redirect to login page if unauthorized
+    if (error.response.status === 401) {
+      localStorage.removeItem('token');
+      await router.push('/');
+    }
+    return Promise.reject(error);
+  });
 });
 
 export { api };
