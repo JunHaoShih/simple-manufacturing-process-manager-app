@@ -4,7 +4,7 @@ import { SPRMResponse } from 'src/models/SPRMResponse';
 import { AppUser } from './models/AppUser';
 
 const getCurrentUser = async (): Promise<AppUser | null> => {
-  const appUser = await api.get('/api/AppUser')
+  const appUser = await api.get('/api/AppUser/Me')
     .then((response) => {
       const data = response.data as SPRMResponse<AppUser>;
       return data.content;
