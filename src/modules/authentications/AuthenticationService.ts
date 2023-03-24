@@ -1,25 +1,25 @@
 import { api } from 'src/boot/axios';
 import { Notify } from 'quasar';
-import { SMPMResponse } from 'src/models/SMPMResponse';
+import { SPRMResponse } from 'src/models/SPRMResponse';
 import { AuthenticationResponse } from './models/AuthenticationResponse';
 import { AuthenticationDTO } from './models/AuthenticationDTO';
 
 const login = async (username: string, password: string):
-Promise<SMPMResponse<AuthenticationResponse> | null> => {
+Promise<SPRMResponse<AuthenticationResponse> | null> => {
   const loginDTO: AuthenticationDTO = {
     username,
     password,
   };
   const worldTimeResponse = await api.post('/api/Authentication', loginDTO)
-    .then((response): SMPMResponse<AuthenticationResponse> => {
-      const data = response.data as SMPMResponse<AuthenticationResponse>;
+    .then((response): SPRMResponse<AuthenticationResponse> => {
+      const data = response.data as SPRMResponse<AuthenticationResponse>;
       localStorage.setItem('token', data.content.token);
       return data;
     })
     .catch((error) => {
       let message = '';
       if (error.response) {
-        const body: SMPMResponse<string> = error.response.data;
+        const body: SPRMResponse<string> = error.response.data;
         message = `Error: ${body.code}, ${body.message}`;
       } else if (error.request) {
         // The request was made but no response was received

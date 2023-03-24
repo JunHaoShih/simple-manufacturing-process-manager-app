@@ -12,11 +12,32 @@
         />
 
         <q-toolbar-title>
-          Simple Manufacturing Process Manager
+          {{ $t('title') }}
         </q-toolbar-title>
-
+        <q-avatar>
+          <img :src="currentUserStore.getGravatar">
+          <q-menu>
+            <q-item clickable v-close-popup>
+              <q-item-section>{{ currentUserStore.username }}</q-item-section>
+            </q-item>
+            <q-separator />
+            <!-- language -->
+            <q-item clickable v-close-popup>
+              <q-item-section @click="setLanguage('zh-TW')">{{ $t('lang.zhTW') }}</q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section @click="setLanguage('en-US')">{{ $t('lang.enUS') }}</q-item-section>
+            </q-item>
+            <q-separator />
+            <!-- logout -->
+            <q-item clickable v-close-popup>
+              <q-item-section>{{ $t('logout') }}</q-item-section>
+            </q-item>
+          </q-menu>
+        </q-avatar>
       </q-toolbar>
     </q-header>
+    <q-ajax-bar/>
 
     <q-drawer
       v-model="leftDrawerOpen"
@@ -26,7 +47,7 @@
         <q-item-label
           header
         >
-          Menu
+        {{ $t('menu') }}
         </q-item-label>
         <NavItem
           v-for="link in essentialLinks"
@@ -44,7 +65,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
+import { useI18n } from 'vue-i18n';
 import NavItem from 'src/components/NavItem.vue';
+import AppUserService from 'src/modules/appUsers/AppUserService';
+import CurrentUserStore from 'src/modules/appUsers/stores/CurrentUserStore';
+import { WritableComputedRef } from 'vue';
 
 @Component({
   components: {
@@ -52,19 +77,38 @@ import NavItem from 'src/components/NavItem.vue';
   },
 })
 export default class MainLayout extends Vue {
-  essentialLinks = [
-    {
-      title: 'Parts management',
-      caption: 'Manage your parts',
-      icon: 'settings',
-      to: '/parts',
-    },
-  ];
+  appUserService = AppUserService;
+
+  currentUserStore = CurrentUserStore();
+
+  i18n = useI18n();
+
+  get essentialLinks() {
+    return [
+      {
+        title: this.i18n.t('parts.title'),
+        caption: this.i18n.t('parts.caption'),
+        icon: 'settings',
+        to: '/parts',
+      },
+    ];
+  }
 
   leftDrawerOpen = false;
 
+  async created() {
+    const appUser = await this.appUserService.getCurrentUser();
+    if (appUser) {
+      this.currentUserStore.$state = appUser;
+    }
+  }
+
   toggleLeftDrawer() {
     this.leftDrawerOpen = !this.leftDrawerOpen;
+  }
+
+  setLanguage(lang: string) {
+    this.i18n.locale = lang as unknown as WritableComputedRef<string>;
   }
 }
 
