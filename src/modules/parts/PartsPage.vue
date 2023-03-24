@@ -3,7 +3,7 @@
     <!-- product files table -->
     <q-table
       title="Parts"
-      :rows="parts"
+      :rows="partsStore.$state"
       :columns="columns"
       v-model:selected="selected"
       selection="multiple"
@@ -24,6 +24,24 @@
             color="grey" icon="edit"></q-btn>
           <q-btn dense round flat
             color="grey" icon="delete"></q-btn>
+        </q-td>
+      </template>
+      <!-- create date -->
+      <template v-slot:body-cell-createDate="props">
+        <q-td :props="props">
+          {{ partsStore.getCreateDateStr(props.row.createDate as Date) }}
+          <q-tooltip>
+            {{ partsStore.getCreateDateFullStr(props.row.createDate as Date) }}
+          </q-tooltip>
+        </q-td>
+      </template>
+      <!-- modified date -->
+      <template v-slot:body-cell-updateDate="props">
+        <q-td :props="props">
+          {{ partsStore.getCreateDateStr(props.row.updateDate as Date) }}
+          <q-tooltip>
+            {{ partsStore.getCreateDateFullStr(props.row.updateDate as Date) }}
+          </q-tooltip>
         </q-td>
       </template>
       <!-- context menu -->
@@ -56,6 +74,7 @@ import { QTableProps } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
 import { PartResponse } from './models/PartResponse';
+import PartsStore from './stores/PartsStore';
 
 @Component({})
 export default class PartsPage extends Vue {
@@ -63,9 +82,9 @@ export default class PartsPage extends Vue {
 
   pattern = '';
 
-  parts = [] as PartResponse[];
-
   selected = [] as PartResponse[];
+
+  partsStore = PartsStore();
 
   get columns(): QTableProps['columns'] {
     return [
@@ -77,6 +96,18 @@ export default class PartsPage extends Vue {
       },
       {
         name: 'name', label: this.i18n.t('parts.name'), field: 'name', align: 'left', sortable: true,
+      },
+      {
+        name: 'createUser', label: this.i18n.t('base.creator'), field: 'createUser', align: 'left', sortable: true,
+      },
+      {
+        name: 'createDate', label: this.i18n.t('base.createDate'), field: '', align: 'left', sortable: true,
+      },
+      {
+        name: 'updateUser', label: this.i18n.t('base.modifier'), field: 'updateUser', align: 'left', sortable: true,
+      },
+      {
+        name: 'updateDate', label: this.i18n.t('base.modifiedDate'), field: '', align: 'left', sortable: true,
       },
     ];
   }
@@ -92,7 +123,7 @@ export default class PartsPage extends Vue {
     this.pattern = this.$route.query.pattern as string;
     const parts = await PartService.getByPattern(this.pattern);
     if (parts) {
-      this.parts = parts;
+      this.partsStore.$state = parts;
     }
   }
 }
