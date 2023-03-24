@@ -73,7 +73,7 @@ import { Component, Vue } from 'vue-facing-decorator';
 import { QTableProps } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
-import { PartResponse } from './models/PartResponse';
+import { Part } from './models/Part';
 import PartsStore from './stores/PartsStore';
 
 @Component({})
@@ -82,7 +82,7 @@ export default class PartsPage extends Vue {
 
   pattern = '';
 
-  selected = [] as PartResponse[];
+  selected = [] as Part[];
 
   partsStore = PartsStore();
 

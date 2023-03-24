@@ -1,13 +1,13 @@
 import { api } from 'src/boot/axios';
 import { Notify } from 'quasar';
 import { SPRMResponse } from 'src/models/SPRMResponse';
-import { PartResponse } from './models/PartResponse';
+import { Part } from './models/Part';
 
 const getByPattern = async (pattern: string):
-Promise<PartResponse[] | null> => {
+Promise<Part[] | null> => {
   const partsResponse = await api.get(`/api/Part/Search${pattern ? `?pattern=${pattern}` : ''}`)
-    .then((response): PartResponse[] => {
-      const data = response.data as SPRMResponse<PartResponse[]>;
+    .then((response): Part[] => {
+      const data = response.data as SPRMResponse<Part[]>;
       return data.content;
     })
     .catch((error) => {

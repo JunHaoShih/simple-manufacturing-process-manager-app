@@ -1,4 +1,4 @@
-export interface PartResponse {
+export interface Part {
   id: number,
   number: string,
   name: string,
