@@ -39,7 +39,7 @@ export default boot(({ app, router }) => {
     // Remove token and redirect to login page if unauthorized
     if (error.response.status === 401) {
       localStorage.removeItem('token');
-      await router.push('/');
+      await router.push('/login');
     }
     return Promise.reject(error);
   });
