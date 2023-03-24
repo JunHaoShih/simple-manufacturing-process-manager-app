@@ -8,6 +8,12 @@ export default {
     edit: '編輯',
     delete: '刪除',
   },
+  base: {
+    creator: '建立者',
+    modifier: '修改者',
+    createDate: '建立日期',
+    modifiedDate: '修改日期',
+  },
   parts: {
     title: '料件管理',
     caption: '管理料件以及其他關連',
