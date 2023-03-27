@@ -103,6 +103,8 @@ import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
 import { Part, PartVersion } from './models/Part';
 import PartsStore from './stores/PartsStore';
+import SourcesStore from '../sources/stores/SourcesStore';
+import UnitsStore from '../units/stores/UnitsStore';
 
 @Component({})
 export default class PartsPage extends Vue {
@@ -113,6 +115,10 @@ export default class PartsPage extends Vue {
   selected = [] as Part[];
 
   partsStore = PartsStore();
+
+  sourcesStore = SourcesStore();
+
+  unitsStore = UnitsStore();
 
   $q = useQuasar();
 
@@ -160,6 +166,8 @@ export default class PartsPage extends Vue {
 
   async created() {
     this.pattern = this.$route.query.pattern as string;
+    this.sourcesStore.init();
+    this.unitsStore.init();
     const parts = await PartService.getByPattern(this.pattern);
     if (parts) {
       this.partsStore.$state = parts;
