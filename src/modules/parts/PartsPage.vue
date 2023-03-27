@@ -15,7 +15,7 @@
     >
       <!-- button at table header -->
       <template v-slot:top>
-        <q-btn color="primary" :label="$t('actions.add')"></q-btn>
+        <q-btn color="primary" :label="$t('actions.add')" @click="prompt=true"></q-btn>
         <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
       </template>
       <!-- action buttons -->
@@ -93,6 +93,7 @@
         </q-menu>
       </template>
     </q-table>
+    <PartDialog v-model="prompt"></PartDialog>
   </div>
 </template>
 
@@ -102,11 +103,14 @@ import { QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
 import { Part, PartVersion } from './models/Part';
+import PartDialog from './components/PartDialog.vue';
 import PartsStore from './stores/PartsStore';
-import SourcesStore from '../sources/stores/SourcesStore';
-import UnitsStore from '../units/stores/UnitsStore';
 
-@Component({})
+@Component({
+  components: {
+    PartDialog,
+  },
+})
 export default class PartsPage extends Vue {
   i18n = useI18n();
 
@@ -116,11 +120,9 @@ export default class PartsPage extends Vue {
 
   partsStore = PartsStore();
 
-  sourcesStore = SourcesStore();
-
-  unitsStore = UnitsStore();
-
   $q = useQuasar();
+
+  prompt = false;
 
   get columns(): QTableProps['columns'] {
     return [
@@ -166,8 +168,6 @@ export default class PartsPage extends Vue {
 
   async created() {
     this.pattern = this.$route.query.pattern as string;
-    this.sourcesStore.init();
-    this.unitsStore.init();
     const parts = await PartService.getByPattern(this.pattern);
     if (parts) {
       this.partsStore.$state = parts;
