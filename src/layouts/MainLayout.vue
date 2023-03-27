@@ -31,7 +31,7 @@
             <q-separator />
             <!-- logout -->
             <q-item clickable v-close-popup>
-              <q-item-section>{{ $t('logout') }}</q-item-section>
+              <q-item-section @click="onLogoutClicked">{{ $t('logout') }}</q-item-section>
             </q-item>
           </q-menu>
         </q-avatar>
@@ -109,6 +109,11 @@ export default class MainLayout extends Vue {
 
   setLanguage(lang: string) {
     this.i18n.locale = lang as unknown as WritableComputedRef<string>;
+  }
+
+  onLogoutClicked(): void {
+    localStorage.removeItem('token');
+    this.$router.push('/login');
   }
 }
 
