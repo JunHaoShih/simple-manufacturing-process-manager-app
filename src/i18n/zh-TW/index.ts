@@ -7,6 +7,8 @@ export default {
     add: '新增',
     edit: '編輯',
     delete: '刪除',
+    cancel: '取消',
+    confirm: '確定',
   },
   base: {
     creator: '建立者',
@@ -26,12 +28,21 @@ export default {
       design: '設計',
       manufacturing: '製造',
     },
+    new: '新增料件',
   },
   iterable: {
     version: '版本',
     iteration: '迭代版本',
     revision: '修訂版本',
     checkout: '出庫',
+  },
+  validations: {
+    parts: {
+      notNull: '不可為空',
+      shorterThan3: '字數不可少於3',
+      longerThan50: '字數不可大於50',
+      invalidChar: '只能含有0-9、aA-zZ、-、_',
+    },
   },
   lang: {
     zhTW: '繁體中文',

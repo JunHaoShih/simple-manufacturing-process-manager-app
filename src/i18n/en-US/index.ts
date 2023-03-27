@@ -7,6 +7,8 @@ export default {
     add: 'Add',
     edit: 'Edit',
     delete: 'Delete',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
   },
   base: {
     creator: 'Creater',
@@ -26,12 +28,21 @@ export default {
       design: 'Design',
       manufacturing: 'Manufacturing',
     },
+    new: 'New part',
   },
   iterable: {
     version: 'Version',
     iteration: 'Iteration',
     revision: 'Revision',
     checkout: 'Checkout',
+  },
+  validations: {
+    parts: {
+      notNull: 'Cannot be empty',
+      shorterThan3: 'Cannot be shorter than 3',
+      longerThan50: 'Cannot be longer than 50',
+      invalidChar: 'Only number, alphabets, dash and underscore are valid',
+    },
   },
   lang: {
     zhTW: '繁體中文(Traditional Chinese)',
