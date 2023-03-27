@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Part } from '../models/Part';
+import { Part, PartVersion } from '../models/Part';
 
 const PartsStore = defineStore('parts', {
   state: (): Part[] => [] as Part[],
@@ -11,6 +11,16 @@ const PartsStore = defineStore('parts', {
     getCreateDateFullStr: (state) => (date :Date): string => {
       const dateStr = new Date(date).toString();
       return dateStr;
+    },
+    getVersion: (state) => (partVersion: PartVersion): string => {
+      const versionStr = `${partVersion.iteration}.${partVersion.revision}`;
+      return versionStr;
+    },
+    isInitialized: (state) => (part: Part): boolean => {
+      if (!part.checkoutId) {
+        return false;
+      }
+      return part.checkoutId !== part.version.id;
     },
   },
 });
