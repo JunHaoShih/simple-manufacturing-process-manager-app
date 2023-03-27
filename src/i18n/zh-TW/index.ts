@@ -21,9 +21,20 @@ export default {
     routing: '產品途程',
     number: '料號',
     name: '料件名稱',
+    view: 'View',
+    views: {
+      design: '設計',
+      manufacturing: '製造',
+    },
+  },
+  iterable: {
+    version: '版本',
+    iteration: '迭代版本',
+    revision: '修訂版本',
+    checkout: '出庫',
   },
   lang: {
     zhTW: '繁體中文',
-    enUS: 'English',
+    enUS: 'English(英文)',
   },
 };

@@ -21,9 +21,20 @@ export default {
     routing: 'Routing',
     number: 'Number',
     name: 'Name',
+    view: 'View',
+    views: {
+      design: 'Design',
+      manufacturing: 'Manufacturing',
+    },
+  },
+  iterable: {
+    version: 'Version',
+    iteration: 'Iteration',
+    revision: 'Revision',
+    checkout: 'Checkout',
   },
   lang: {
-    zhTW: '繁體中文',
+    zhTW: '繁體中文(Traditional Chinese)',
     enUS: 'English',
   },
 };
