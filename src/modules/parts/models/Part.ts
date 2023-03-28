@@ -1,3 +1,12 @@
+import { SelectOption } from 'src/models/SelectOption';
+
+export enum ViewType {
+  Design = 'Design',
+  Manufacturing = 'Manufacturing',
+}
+
+export type ViewTypeOption = SelectOption<ViewType>
+
 export interface PartVersion {
   id: number,
   masterId: number,
@@ -17,7 +26,7 @@ export interface Part {
   name: string,
   isEndItem: boolean,
   isPhantom: boolean,
-  viewType: number,
+  viewType: ViewType,
   viewSubtypeId: number,
   checkout: boolean,
   checkoutId: number | null,

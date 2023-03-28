@@ -2,20 +2,33 @@ import { defineStore } from 'pinia';
 import { Notify } from 'quasar';
 import { api } from 'src/boot/axios';
 import { SPRMResponse } from 'src/models/SPRMResponse';
-import { Source } from '../models/Source';
+import { Source, SourceOption } from '../models/Source';
+
+export interface SourcesContainer {
+  sources: Source[],
+}
 
 const SourcesStore = defineStore('sources', {
-  state: (): Source[] => [] as Source[],
+  state: (): SourcesContainer => ({
+    sources: [],
+  }),
   getters: {
     getById: (state) => (id: number)
-    : Source | undefined => state.find((source) => source.id === id),
+    : Source | undefined => state.sources.find((source) => source.id === id),
+    options(state): SourceOption[] {
+      const arr = state.sources.map((source): SourceOption => ({
+        label: source.name,
+        value: source.id,
+      }));
+      return arr;
+    },
   },
   actions: {
     async init(): Promise<Source[] | null> {
       const sourcesResponse = await api.get('api/Source')
         .then((response): Source[] => {
           const data = response.data as SPRMResponse<Source[]>;
-          this.$state = data.content;
+          this.sources = data.content;
           return data.content;
         })
         .catch((error) => {

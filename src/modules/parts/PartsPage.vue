@@ -8,7 +8,7 @@
       v-model:selected="selected"
       selection="multiple"
       row-key="id"
-      class="q-mr-sm center-max"
+      class="q-mr-sm center-max outer-max"
       dense
       :pagination="pagination"
       style="position: sticky; top: 0"
@@ -186,3 +186,8 @@ export default class PartsPage extends Vue {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.outer-max
+  height: calc(100vh - 60px)
+</style>

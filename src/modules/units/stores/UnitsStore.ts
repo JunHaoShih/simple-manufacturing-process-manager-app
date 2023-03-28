@@ -2,20 +2,33 @@ import { defineStore } from 'pinia';
 import { Notify } from 'quasar';
 import { api } from 'src/boot/axios';
 import { SPRMResponse } from 'src/models/SPRMResponse';
-import { Unit } from '../models/Unit';
+import { Unit, UnitOption } from '../models/Unit';
+
+export interface UnitsContainer {
+  units: Unit[],
+}
 
 const UnitsStore = defineStore('units', {
-  state: (): Unit[] => [] as Unit[],
+  state: (): UnitsContainer => ({
+    units: [],
+  }),
   getters: {
     getById: (state) => (id: number)
-    : Unit | undefined => state.find((source) => source.id === id),
+    : Unit | undefined => state.units.find((source) => source.id === id),
+    options(state): UnitOption[] {
+      const arr = state.units.map((source): UnitOption => ({
+        label: source.name,
+        value: source.id,
+      }));
+      return arr;
+    },
   },
   actions: {
     async init(): Promise<Unit[] | null> {
       const unitsResponse = await api.get('api/Unit')
         .then((response): Unit[] => {
           const data = response.data as SPRMResponse<Unit[]>;
-          this.$state = data.content;
+          this.$state.units = data.content;
           return data.content;
         })
         .catch((error) => {
