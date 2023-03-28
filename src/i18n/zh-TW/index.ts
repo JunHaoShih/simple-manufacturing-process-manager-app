@@ -23,6 +23,8 @@ export default {
     routing: '產品途程',
     number: '料號',
     name: '料件名稱',
+    endItem: '最終項目',
+    phantom: '虛擬件',
     view: 'View',
     views: {
       design: '設計',

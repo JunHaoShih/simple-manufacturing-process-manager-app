@@ -23,6 +23,8 @@ export default {
     routing: 'Routing',
     number: 'Number',
     name: 'Name',
+    endItem: 'End item',
+    phantom: 'Phantom',
     view: 'View',
     views: {
       design: 'Design',
