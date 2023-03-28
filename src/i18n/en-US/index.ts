@@ -46,6 +46,9 @@ export default {
       invalidChar: 'Only number, alphabets, dash and underscore are valid',
     },
   },
+  source: 'Source',
+  unit: 'Unit',
+  remarks: 'Remarks',
   lang: {
     zhTW: '繁體中文(Traditional Chinese)',
     enUS: 'English',

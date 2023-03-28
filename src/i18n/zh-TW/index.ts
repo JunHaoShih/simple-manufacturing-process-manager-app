@@ -46,6 +46,9 @@ export default {
       invalidChar: '只能含有0-9、aA-zZ、-、_',
     },
   },
+  source: '來源',
+  unit: '單位',
+  remarks: '備註',
   lang: {
     zhTW: '繁體中文',
     enUS: 'English(英文)',
