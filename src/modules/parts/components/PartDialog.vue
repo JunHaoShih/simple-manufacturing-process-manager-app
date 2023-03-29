@@ -9,7 +9,7 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-separator />
-      <q-card-section style="max-height: 90vh" class="scroll">
+      <q-card-section class="scroll dialog-inner-max">
         <ValidationInput v-model="createPartStore.number" :label="$t('parts.number')"
           :inputValidator="partValidationService.checkNumberRules"
         />
@@ -158,3 +158,8 @@ export default class PartDialog extends Vue {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.dialog-inner-max
+  height: calc(90vh - 120px)
+</style>
