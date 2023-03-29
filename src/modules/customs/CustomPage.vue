@@ -1,5 +1,12 @@
 <template>
-  <div>Custom Page</div>
+  <q-tabs>
+    <q-route-tab
+      icon="mail"
+      to="/customizations/attributes"
+      exact
+    />
+  </q-tabs>
+  <router-view />
 </template>
 
 <script lang="ts">

@@ -7,7 +7,13 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: '/parts', component: () => import('src/modules/parts/PartsPage.vue') },
-      { path: '/customizations', component: () => import('src/modules/customs/CustomPage.vue') },
+      {
+        path: '/customizations',
+        component: () => import('src/modules/customs/CustomPage.vue'),
+        children: [
+          { path: '/customizations/attributes', component: () => import('src/modules/customs/CustomAttributePage.vue') },
+        ],
+      },
     ],
   },
   {
