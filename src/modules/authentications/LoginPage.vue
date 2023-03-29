@@ -18,11 +18,22 @@
               <q-card square bordered class="q-pa-lg shadow-1">
                 <q-card-section>
                   <q-form class="q-gutter-md">
-                    <q-input ref="inputRef" square filled clearable v-model="username"
-                    label="username"
-                    style="width: 300px;" />
+                    <q-input ref="inputRef" square filled v-model="username"
+                      label="username" style="width: 300px;"
+                    >
+                      <template v-if="username" v-slot:append>
+                        <q-icon name="cancel" @click.stop.prevent="username = ''"
+                          class="cursor-pointer" />
+                      </template>
+                    </q-input>
                     <q-input square filled clearable v-model="password" type="password"
-                    label="password" style="width: 300px;" />
+                      label="password" style="width: 300px;"
+                    >
+                      <template v-if="password" v-slot:append>
+                        <q-icon name="cancel" @click.stop.prevent="password = ''"
+                          class="cursor-pointer" />
+                      </template>
+                    </q-input>
                   </q-form>
                 </q-card-section>
                 <q-card-actions class="q-px-md">

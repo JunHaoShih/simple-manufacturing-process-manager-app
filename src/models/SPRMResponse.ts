@@ -1,7 +1,7 @@
 /**
  * 呼叫SMPM-API回傳的格式
  */
-export interface SMPMResponse<T> {
+export interface SPRMResponse<T> {
   /**
    * response code
    */
