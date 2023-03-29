@@ -26,12 +26,15 @@
                           class="cursor-pointer" />
                       </template>
                     </q-input>
-                    <q-input square filled clearable v-model="password" type="password"
+                    <q-input square filled v-model="password" type="password"
+                      v-on:keyup.enter="onSubmit"
                       label="password" style="width: 300px;"
                     >
                       <template v-if="password" v-slot:append>
-                        <q-icon name="cancel" @click.stop.prevent="password = ''"
-                          class="cursor-pointer" />
+                        <q-icon name="cancel"
+                          @click.stop.prevent="password = ''"
+                          class="cursor-pointer"
+                        />
                       </template>
                     </q-input>
                   </q-form>
