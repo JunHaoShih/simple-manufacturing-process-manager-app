@@ -1,7 +1,7 @@
 <template>
-  <q-tabs>
+  <q-tabs align="left" indicator-color="secondary">
     <q-route-tab
-      icon="mail"
+      label="Custom attributes"
       to="/customizations/attributes"
       exact
     />
