@@ -9,6 +9,9 @@ export default {
     delete: 'Delete',
     cancel: 'Cancel',
     confirm: 'Confirm',
+    inserts: {
+      success: 'Insert Success',
+    },
   },
   base: {
     creator: 'Creater',

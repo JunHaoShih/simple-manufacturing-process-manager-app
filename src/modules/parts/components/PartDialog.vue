@@ -66,7 +66,7 @@
 import {
   Component, Model, Ref, Vue,
 } from 'vue-facing-decorator';
-import { QDialog } from 'quasar';
+import { QDialog, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { SourceOption } from 'src/modules/sources/models/Source';
 import ValidationInput from 'src/components/ValidationInput.vue';
@@ -77,6 +77,7 @@ import PartValidationService from '../PartValidateService';
 import CreatePartStore from '../stores/CreatePartStore';
 import ViewTypeOptionsStore from '../stores/ViewTypeOptionsStore';
 import { ViewTypeOption } from '../models/Part';
+import PartsStore from '../stores/PartsStore';
 
 @Component({
   components: {
@@ -91,6 +92,10 @@ export default class PartDialog extends Vue {
   unitsStore = UnitsStore();
 
   createPartStore = CreatePartStore();
+
+  partsStore = PartsStore();
+
+  $q = useQuasar();
 
   @Model
   // eslint-disable-next-line indent
@@ -136,17 +141,20 @@ export default class PartDialog extends Vue {
     this.unitOption = uo;
   }
 
-  onDialogConfirm(): void {
-    this.dialogRef.hide();
-  }
-
-  isValueError(value: string): boolean {
-    const result = this.partValidationService.checkNumberRules(value);
-    if (result) {
-      this.errorMessage = result;
-      return true;
+  async onDialogConfirm(): Promise<void> {
+    if (!this.createPartStore.isPartValid()) {
+      return;
     }
-    return false;
+    const newPart = await this.createPartStore.create();
+    if (!newPart) {
+      return;
+    }
+    this.partsStore.addPart(newPart);
+    this.$q.notify({
+      message: `${newPart.number} ${this.i18n.t('actions.inserts.success')}`,
+      color: 'secondary',
+    });
+    this.dialogRef.hide();
   }
 }
 </script>

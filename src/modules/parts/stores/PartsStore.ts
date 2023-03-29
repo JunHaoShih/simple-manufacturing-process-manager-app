@@ -24,37 +24,8 @@ const PartsStore = defineStore('parts', {
     },
   },
   actions: {
-    test() {
-      for (let i = 0; i < 100; i += 1) {
-        this.$state.push({
-          id: i,
-          number: '123',
-          name: '13',
-          isEndItem: true,
-          isPhantom: true,
-          viewType: ViewType.Design,
-          viewSubtypeId: 0,
-          createUser: '123',
-          createDate: new Date(),
-          updateUser: '123',
-          updateDate: new Date(),
-          remarks: '',
-          checkout: false,
-          checkoutId: 0,
-          version: {
-            id: 1,
-            masterId: 1,
-            iteration: 1,
-            revision: 1,
-            checkout: false,
-            createUser: '123',
-            createDate: new Date(),
-            updateUser: '123',
-            updateDate: new Date(),
-            remarks: '',
-          },
-        });
-      }
+    addPart(part: Part): void {
+      this.$state.push(part);
     },
   },
 });

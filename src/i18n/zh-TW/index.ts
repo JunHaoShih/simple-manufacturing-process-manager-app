@@ -9,6 +9,9 @@ export default {
     delete: '刪除',
     cancel: '取消',
     confirm: '確定',
+    inserts: {
+      success: '新增成功',
+    },
   },
   base: {
     creator: '建立者',

@@ -1,4 +1,6 @@
 import { ValidateRule } from 'src/models/ValidateRule';
+import { Part } from './models/Part';
+import { CreatePartDTO } from './dtos/CreatePartDTO';
 
 export const validateNumberRules: ValidateRule[] = [
   {
@@ -50,9 +52,35 @@ const checkNameRules = (name: string): string | undefined => {
   return result;
 };
 
+const checkPartRules = (part: Part): string | undefined => {
+  let result = checkNumberRules(part.number);
+  if (result) {
+    return result;
+  }
+  result = checkNameRules(part.name);
+  if (result) {
+    return result;
+  }
+  return result;
+};
+
+const checkCreatePartRules = (part: CreatePartDTO): string | undefined => {
+  let result = checkNumberRules(part.number);
+  if (result) {
+    return result;
+  }
+  result = checkNameRules(part.name);
+  if (result) {
+    return result;
+  }
+  return result;
+};
+
 const PartValidationService = {
   checkNumberRules,
   checkNameRules,
+  checkPartRules,
+  checkCreatePartRules,
 };
 
 export default PartValidationService;
