@@ -35,6 +35,10 @@ export default {
     },
     new: 'New part',
   },
+  customs: {
+    title: 'Customization',
+    caption: 'Manage your settings',
+  },
   iterable: {
     version: 'Version',
     iteration: 'Iteration',

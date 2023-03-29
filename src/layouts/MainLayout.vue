@@ -91,6 +91,12 @@ export default class MainLayout extends Vue {
         icon: 'settings',
         to: '/parts',
       },
+      {
+        title: this.i18n.t('customs.title'),
+        caption: this.i18n.t('customs.caption'),
+        icon: 'tune',
+        to: '/customizations',
+      },
     ];
   }
 

@@ -35,6 +35,10 @@ export default {
     },
     new: '新增料件',
   },
+  customs: {
+    title: '自定義',
+    caption: '管理自訂屬性',
+  },
   iterable: {
     version: '版本',
     iteration: '迭代版本',
