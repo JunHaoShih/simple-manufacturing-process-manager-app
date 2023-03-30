@@ -7,4 +7,5 @@ export interface CustomizeInterface extends ReturnBase {
   number: string,
   name: string,
   isSystemDefault: boolean,
+  languages: Record<string, string>,
 }

@@ -1,7 +1,7 @@
 <template>
-  <q-tabs align="left" indicator-color="secondary">
+  <q-tabs align="left" indicator-color="orange">
     <q-route-tab
-      label="Custom attributes"
+      :label="$t('customs.attributes.title')"
       to="/customizations/attributes"
       exact
     />
