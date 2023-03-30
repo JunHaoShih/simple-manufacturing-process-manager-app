@@ -1,8 +1,14 @@
 import { defineStore } from 'pinia';
-import { Part, PartVersion, ViewType } from '../models/Part';
+import { Part, PartVersion } from '../models/Part';
+
+export interface PartsContainer {
+  parts: Part[],
+}
 
 const PartsStore = defineStore('parts', {
-  state: (): Part[] => [] as Part[],
+  state: (): PartsContainer => ({
+    parts: [],
+  }),
   getters: {
     getCreateDateStr: (state) => (date :Date): string => {
       const dateStr = new Date(date).toISOString().split('T')[0];
@@ -25,7 +31,10 @@ const PartsStore = defineStore('parts', {
   },
   actions: {
     addPart(part: Part): void {
-      this.$state.push(part);
+      this.parts.push(part);
+    },
+    unshiftPart(part: Part): void {
+      this.parts.unshift(part);
     },
   },
 });

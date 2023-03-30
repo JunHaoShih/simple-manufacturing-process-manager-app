@@ -3,7 +3,7 @@
     <!-- product files table -->
     <q-table
       title="Parts"
-      :rows="partsStore.$state"
+      :rows="partsStore.parts"
       :columns="columns"
       v-model:selected="selected"
       selection="multiple"
@@ -17,6 +17,10 @@
       <template v-slot:top>
         <q-btn color="primary" :label="$t('actions.add')" @click="prompt=true"></q-btn>
         <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
+        <q-space />
+        <q-input v-model="pattern" type="text" label="Search"
+          v-on:keyup.enter="onSearchEnter"
+        />
       </template>
       <!-- action buttons -->
       <template v-slot:body-cell-actions="props">
@@ -98,7 +102,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator';
+import { Component, Vue, Watch } from 'vue-facing-decorator';
 import { QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
@@ -168,10 +172,7 @@ export default class PartsPage extends Vue {
 
   async created() {
     this.pattern = this.$route.query.pattern as string;
-    const parts = await PartService.getByPattern(this.pattern);
-    if (parts) {
-      this.partsStore.$state = parts;
-    }
+    await this.searchParts();
   }
 
   onInfoClicked(part: Part): void {
@@ -182,6 +183,28 @@ export default class PartsPage extends Vue {
         message: `${part.number} is not initialized yet!`,
         color: 'red',
       });
+    }
+  }
+
+  onSearchEnter(): void {
+    this.$router.push({
+      path: '/parts',
+      query: { pattern: this.pattern },
+    });
+  }
+
+  async searchParts(): Promise<void> {
+    const parts = await PartService.getByPattern(this.pattern);
+    if (parts) {
+      this.partsStore.parts = parts;
+    }
+  }
+
+  @Watch('$route.query.pattern')
+  async onTest1(newValue: string, oldValue: string) {
+    if (this.$route.path === '/parts') {
+      this.pattern = newValue;
+      await this.searchParts();
     }
   }
 }

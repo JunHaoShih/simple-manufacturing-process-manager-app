@@ -5,7 +5,8 @@ import { Part } from './models/Part';
 
 const getByPattern = async (pattern: string):
 Promise<Part[] | null> => {
-  const partsResponse = await api.get(`/api/Part/Search${pattern ? `?pattern=${pattern}` : ''}`)
+  const searchUrl = `/api/Part/Search${pattern ? `?pattern=${pattern}` : ''}`;
+  const partsResponse = await api.get(encodeURI(searchUrl))
     .then((response): Part[] => {
       const data = response.data as SPRMResponse<Part[]>;
       return data.content;

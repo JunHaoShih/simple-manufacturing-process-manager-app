@@ -149,7 +149,7 @@ export default class PartDialog extends Vue {
     if (!newPart) {
       return;
     }
-    this.partsStore.addPart(newPart);
+    this.partsStore.unshiftPart(newPart);
     this.$q.notify({
       message: `${newPart.number} ${this.i18n.t('actions.inserts.success')}`,
       color: 'secondary',
