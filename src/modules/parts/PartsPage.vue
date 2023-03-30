@@ -97,7 +97,7 @@
         </q-menu>
       </template>
     </q-table>
-    <PartDialog v-model="prompt"></PartDialog>
+    <PartDialog v-model="prompt" @onPartCreated="onPartCreated"></PartDialog>
   </div>
 </template>
 
@@ -206,6 +206,10 @@ export default class PartsPage extends Vue {
       this.pattern = newValue;
       await this.searchParts();
     }
+  }
+
+  onPartCreated(newPart: Part) {
+    this.partsStore.unshiftPart(newPart);
   }
 }
 </script>

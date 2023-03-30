@@ -64,7 +64,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Ref, Vue,
+  Component, Emit, Model, Ref, Vue,
 } from 'vue-facing-decorator';
 import { QDialog, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -76,8 +76,7 @@ import { UnitOption } from 'src/modules/units/models/Unit';
 import PartValidationService from '../PartValidateService';
 import CreatePartStore from '../stores/CreatePartStore';
 import ViewTypeOptionsStore from '../stores/ViewTypeOptionsStore';
-import { ViewTypeOption } from '../models/Part';
-import PartsStore from '../stores/PartsStore';
+import { Part, ViewTypeOption } from '../models/Part';
 
 @Component({
   components: {
@@ -92,8 +91,6 @@ export default class PartDialog extends Vue {
   unitsStore = UnitsStore();
 
   createPartStore = CreatePartStore();
-
-  partsStore = PartsStore();
 
   $q = useQuasar();
 
@@ -112,6 +109,8 @@ export default class PartDialog extends Vue {
   sourceOption = {} as SourceOption;
 
   unitOption = {} as UnitOption;
+
+  createdPart = {} as Part;
 
   @Ref
   // eslint-disable-next-line indent
@@ -149,12 +148,18 @@ export default class PartDialog extends Vue {
     if (!newPart) {
       return;
     }
-    this.partsStore.unshiftPart(newPart);
+    this.createdPart = newPart;
+    this.emitCreateResult();
     this.$q.notify({
-      message: `${newPart.number} ${this.i18n.t('actions.inserts.success')}`,
+      message: `${this.createdPart.number} ${this.i18n.t('actions.inserts.success')}`,
       color: 'secondary',
     });
     this.dialogRef.hide();
+  }
+
+  @Emit('onPartCreated')
+  emitCreateResult(): Part {
+    return this.createdPart;
   }
 }
 </script>
