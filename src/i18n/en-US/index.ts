@@ -38,6 +38,10 @@ export default {
   customs: {
     title: 'Customization',
     caption: 'Manage your settings',
+    attributes: {
+      title: 'Custom attributes',
+      caption: 'Customize your aiiributes',
+    },
   },
   iterable: {
     version: 'Version',

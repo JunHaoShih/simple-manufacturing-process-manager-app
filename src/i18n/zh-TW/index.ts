@@ -38,6 +38,10 @@ export default {
   customs: {
     title: '自定義',
     caption: '管理自訂屬性',
+    attributes: {
+      title: '自定義屬性',
+      caption: '設定您的自定義屬性',
+    },
   },
   iterable: {
     version: '版本',

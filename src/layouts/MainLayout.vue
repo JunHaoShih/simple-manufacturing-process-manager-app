@@ -52,7 +52,7 @@
         <NavItem
           v-for="link in essentialLinks"
           :key="link.title"
-          v-bind="link"
+          :navNode="link"
         />
       </q-list>
     </q-drawer>
@@ -66,10 +66,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
-import NavItem from 'src/components/NavItem.vue';
+import NavItem from 'src/components/navItem/NavItem.vue';
 import AppUserService from 'src/modules/appUsers/AppUserService';
 import CurrentUserStore from 'src/modules/appUsers/stores/CurrentUserStore';
 import { WritableComputedRef } from 'vue';
+import { NavNode } from 'src/components/navItem/NavNode';
 
 @Component({
   components: {
@@ -83,7 +84,7 @@ export default class MainLayout extends Vue {
 
   i18n = useI18n();
 
-  get essentialLinks() {
+  get essentialLinks(): NavNode[] {
     return [
       {
         title: this.i18n.t('parts.title'),
@@ -95,9 +96,16 @@ export default class MainLayout extends Vue {
         title: this.i18n.t('customs.title'),
         caption: this.i18n.t('customs.caption'),
         icon: 'tune',
-        to: '/customizations',
+        children: [
+          {
+            title: this.i18n.t('customs.attributes.title'),
+            caption: this.i18n.t('customs.attributes.caption'),
+            icon: 'handyman',
+            to: '/customizations/attributes',
+          },
+        ],
       },
-    ];
+    ] as NavNode[];
   }
 
   leftDrawerOpen = false;
