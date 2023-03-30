@@ -21,7 +21,9 @@
                 <q-avatar class="avatar-color" text-color="white">{{ attr.name[0] }}</q-avatar>
               </q-item-section>
 
-              <q-item-section>{{ attr.number }} {{ attr.name }}</q-item-section>
+              <q-item-section>
+                {{ attr.number }} {{ attr.name }}
+              </q-item-section>
             </q-item>
           </q-list>
         </div>
@@ -40,12 +42,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
+import { useI18n } from 'vue-i18n';
 import CustomAttributeService from './services/CustomAttributeService';
 import CustomAttributesStore from './stores/CustomAttributesStore';
 import { CustomAttribute } from './models/CustomAttribute';
 
 @Component({})
 export default class CustomAttributePage extends Vue {
+  i18n = useI18n();
+
   defaultAttr = {} as CustomAttribute;
 
   splitterModel = 350;
