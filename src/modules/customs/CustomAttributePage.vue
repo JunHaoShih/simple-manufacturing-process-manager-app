@@ -33,6 +33,12 @@
         <div class="q-pa-md">
           <div>{{ defaultAttr.number }}</div>
           <div>{{ defaultAttr.name }}</div>
+          <div
+            v-for="[key, value] of Object.entries(defaultAttr.languages)"
+            :key="key"
+          >
+            {{ key }} {{ value }}
+          </div>
         </div>
       </template>
 
