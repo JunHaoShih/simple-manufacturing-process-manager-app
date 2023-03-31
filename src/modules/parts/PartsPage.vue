@@ -61,18 +61,18 @@
       <!-- create date -->
       <template v-slot:body-cell-createDate="props">
         <q-td :props="props">
-          {{ partsStore.getCreateDateStr(props.row.version.createDate as Date) }}
+          {{ new Date(props.row.version.createDate).getDateStr() }}
           <q-tooltip>
-            {{ partsStore.getCreateDateFullStr(props.row.version.createDate as Date) }}
+            {{ new Date(props.row.version.createDate).toString() }}
           </q-tooltip>
         </q-td>
       </template>
       <!-- modified date -->
       <template v-slot:body-cell-updateDate="props">
         <q-td :props="props">
-          {{ partsStore.getCreateDateStr(props.row.version.updateDate as Date) }}
+          {{ new Date(props.row.version.updateDate).getDateStr() }}
           <q-tooltip>
-            {{ partsStore.getCreateDateFullStr(props.row.version.updateDate as Date) }}
+            {{ new Date(props.row.version.updateDate).toString() }}
           </q-tooltip>
         </q-td>
       </template>
@@ -109,6 +109,7 @@ import PartService from './PartService';
 import { Part, PartVersion } from './models/Part';
 import PartDialog from './components/PartDialog.vue';
 import PartsStore from './stores/PartsStore';
+import 'src/extensions/date.extensions';
 
 @Component({
   components: {

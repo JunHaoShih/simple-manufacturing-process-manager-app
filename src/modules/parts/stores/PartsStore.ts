@@ -10,14 +10,6 @@ const PartsStore = defineStore('parts', {
     parts: [],
   }),
   getters: {
-    getCreateDateStr: (state) => (date :Date): string => {
-      const dateStr = new Date(date).toISOString().split('T')[0];
-      return dateStr;
-    },
-    getCreateDateFullStr: (state) => (date :Date): string => {
-      const dateStr = new Date(date).toString();
-      return dateStr;
-    },
     getVersion: (state) => (partVersion: PartVersion): string => {
       const versionStr = `${partVersion.iteration}.${partVersion.revision}`;
       return versionStr;
