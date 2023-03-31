@@ -1,5 +1,5 @@
 <template>
-  <q-tabs align="left" indicator-color="orange">
+  <q-tabs align="left" indicator-color="orange" class="tabs-font">
     <q-route-tab
       :label="$t('customs.attributes.title')"
       to="/customizations/attributes"
@@ -16,3 +16,8 @@ import { Component, Vue } from 'vue-facing-decorator';
 export default class CustomPage extends Vue {
 }
 </script>
+
+<style lang="sass" scoped>
+.tabs-font
+  font-family: 'Noto Sans TC'
+</style>

@@ -17,9 +17,11 @@
   <q-expansion-item
     v-else
     expand-separator
+    v-model="expanded"
     :icon="navNode.icon"
     :label="navNode.title"
     :caption="navNode.caption"
+    @click="onExpansionClicked"
   >
     <NavItem
       v-for="child in navNode.children"
@@ -37,5 +39,13 @@ import { NavNode } from './NavNode';
 export default class NavItem extends Vue {
   @Prop
   readonly navNode!: NavNode;
+
+  expanded = false;
+
+  onExpansionClicked() {
+    if (this.navNode.to && this.expanded) {
+      this.$router.push(this.navNode.to);
+    }
+  }
 }
 </script>

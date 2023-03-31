@@ -22,7 +22,7 @@
               </q-item-section>
 
               <q-item-section>
-                {{ attr.number }} {{ attr.name }}
+                {{ attr.number }} {{ attr.name }} [{{ attr.languages[i18n.locale.toString()] }}]
               </q-item-section>
             </q-item>
           </q-list>
@@ -30,16 +30,12 @@
       </template>
 
       <template v-slot:after>
-        <div class="q-pa-md">
-          <div>{{ defaultAttr.number }}</div>
-          <div>{{ defaultAttr.name }}</div>
-          <div
-            v-for="[key, value] of Object.entries(defaultAttr.languages)"
-            :key="key"
-          >
-            {{ key }} {{ value }}
-          </div>
-        </div>
+        <CustomAttributePanel
+          v-if="Object.entries(defaultAttr).length > 0"
+          v-model="defaultAttr"
+          class="q-pa-md"
+          style="max-width: 1000px; margin: auto">
+        </CustomAttributePanel>
       </template>
 
     </q-splitter>
@@ -52,9 +48,15 @@ import { useI18n } from 'vue-i18n';
 import CustomAttributeService from './services/CustomAttributeService';
 import CustomAttributesStore from './stores/CustomAttributesStore';
 import { CustomAttribute } from './models/CustomAttribute';
+import 'src/extensions/date.extensions';
+import CustomAttributePanel from './components/CustomAttributePanel.vue';
 
-@Component({})
-export default class CustomAttributePage extends Vue {
+@Component({
+  components: {
+    CustomAttributePanel,
+  },
+})
+export default class CustomAttributesPage extends Vue {
   i18n = useI18n();
 
   defaultAttr = {} as CustomAttribute;
@@ -64,6 +66,8 @@ export default class CustomAttributePage extends Vue {
   customAttributesStore = CustomAttributesStore();
 
   customAttrService = CustomAttributeService;
+
+  readonly = true;
 
   async created(): Promise<void> {
     const attrs = await this.customAttrService.getAll();
