@@ -42,6 +42,11 @@ export default {
       title: '自定義屬性',
       caption: '設定您的自定義屬性',
     },
+    generic: {
+      number: '編號',
+      name: '名稱',
+      disable: '停用',
+    },
   },
   iterable: {
     version: '版本',
@@ -60,6 +65,8 @@ export default {
   source: '來源',
   unit: '單位',
   remarks: '備註',
+  language: '語言',
+  info: '資訊',
   lang: {
     zhTW: '繁體中文',
     enUS: 'English(英文)',

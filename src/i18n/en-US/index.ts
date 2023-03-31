@@ -42,6 +42,11 @@ export default {
       title: 'Custom attributes',
       caption: 'Customize your aiiributes',
     },
+    generic: {
+      number: 'Number',
+      name: 'Name',
+      disable: 'Disable',
+    },
   },
   iterable: {
     version: 'Version',
@@ -60,6 +65,8 @@ export default {
   source: 'Source',
   unit: 'Unit',
   remarks: 'Remarks',
+  language: 'Language',
+  info: 'Info',
   lang: {
     zhTW: '繁體中文(Traditional Chinese)',
     enUS: 'English',
