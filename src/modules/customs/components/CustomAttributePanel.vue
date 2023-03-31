@@ -12,7 +12,8 @@
       <div class="q-ma-sm">
         Last edited: {{ new Date(defaultAttr.updateDate).getDateStr() }}
         <q-tooltip>
-          {{ new Date(defaultAttr.updateDate).toString() }}
+          <div>{{ new Date(defaultAttr.updateDate).toString() }}</div>
+          <div>By {{ defaultAttr.updateUser }}</div>
         </q-tooltip>
       </div>
     </div>
@@ -39,6 +40,7 @@
       <q-input
         v-model="defaultAttr.remarks"
         :label="$t('remarks')"
+        :readonly="readonly"
         filled
         type="textarea"
       />
