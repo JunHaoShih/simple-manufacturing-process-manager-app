@@ -1,5 +1,6 @@
 <template>
   <q-input :label="label" dense v-model="inputValue"
+    filled
     :error="isValueError()"
     :error-message="i18nErrorMessage"
   ></q-input>
