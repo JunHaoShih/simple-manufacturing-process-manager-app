@@ -45,7 +45,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
-import CustomAttributeService from './services/CustomAttributeService';
+import { CustomAttributeService } from './services/CustomAttributeService';
 import CustomAttributesStore from './stores/CustomAttributesStore';
 import { CustomAttribute } from './models/CustomAttribute';
 import 'src/extensions/date.extensions';

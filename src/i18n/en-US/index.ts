@@ -10,7 +10,10 @@ export default {
     cancel: 'Cancel',
     confirm: 'Confirm',
     inserts: {
-      success: 'Insert Success',
+      success: 'Insert success',
+    },
+    update: {
+      success: 'Update success',
     },
   },
   base: {
@@ -41,6 +44,15 @@ export default {
     attributes: {
       title: 'Custom attributes',
       caption: 'Customize your aiiributes',
+      attribteType: 'Attribte type',
+      displayType: 'Display type',
+      types: {
+        string: 'String',
+      },
+      displays: {
+        singleSelect: 'Single select',
+        value: 'Value',
+      },
     },
     generic: {
       number: 'Number',

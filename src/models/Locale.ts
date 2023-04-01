@@ -2,4 +2,6 @@
 /**
  * Current available locales
  */
-type AvailableLocale = 'en-US' | 'zh-TW';
+
+export const AvailableLocales = ['en-US', 'zh-TW'] as const;
+export type AvailableLocale = typeof AvailableLocales;

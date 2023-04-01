@@ -1,11 +1,11 @@
 import { AttributeType, DisplayType } from './CustomAttribute';
 
-export interface CreateCustomAttributeDTO {
+export interface UpdateCustomAttributeDTO {
   number: string,
   name: string,
   attributeType: AttributeType,
   displayType: DisplayType,
   isDisabled: boolean,
   languages: Record<string, string>,
-  remarks: string,
+  remarks: string | null,
 }

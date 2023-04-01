@@ -12,6 +12,9 @@ export default {
     inserts: {
       success: '新增成功',
     },
+    update: {
+      success: '更新成功',
+    },
   },
   base: {
     creator: '建立者',
@@ -41,6 +44,15 @@ export default {
     attributes: {
       title: '自定義屬性',
       caption: '設定您的自定義屬性',
+      attribteType: '屬性類型',
+      displayType: '顯示類型',
+      types: {
+        string: '字串',
+      },
+      displays: {
+        singleSelect: '單選',
+        value: '值',
+      },
     },
     generic: {
       number: '編號',
