@@ -55,12 +55,20 @@
         </div>
         <!-- attribute type -->
         <div class="q-ma-sm">{{ $t('customs.attributes.attribteType') }}</div>
-        <q-select filled v-model="attrTypeOption" :options="attrTypesStore.i18nOptions"
+        <q-select
+          filled
+          dense
+          v-model="attrTypeOption"
+          :options="attrTypesStore.i18nOptions"
           :readonly="readonly"
           @update:modelValue="onAttrTypeUpdated" />
         <!-- display type -->
         <div class="q-ma-sm">{{ $t('customs.attributes.displayType') }}</div>
-        <q-select filled v-model="displayTypeOption" :options="displayTypesStore.i18nOptions"
+        <q-select
+          filled
+          dense
+          v-model="displayTypeOption"
+          :options="displayTypesStore.i18nOptions"
           :readonly="readonly"
           @update:modelValue="onDisplayTypeUpdated" />
         <!-- remarks -->

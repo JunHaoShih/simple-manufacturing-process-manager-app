@@ -1,7 +1,11 @@
 <template>
   <div class="main-panel">
-    <div class="row q-px-md">
+    <div class="row q-pa-md">
+      <q-btn color="primary" :label="$t('actions.add')"></q-btn>
+      <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
+      <q-space/>
       <q-input
+        dense
         v-model="patternInput"
         :label="$t('actions.search')"
         v-on:keyup.enter="onSearch"
@@ -38,7 +42,7 @@
 
       <template v-slot:after>
         <CustomAttributePanel
-          v-if="Object.entries(defaultAttr).length > 0"
+          v-if="defaultAttr && Object.entries(defaultAttr).length > 0"
           v-model="defaultAttr"
           class="q-pa-md">
         </CustomAttributePanel>
