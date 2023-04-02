@@ -15,6 +15,7 @@ export default {
     update: {
       success: '更新成功',
     },
+    search: '搜尋',
   },
   base: {
     creator: '建立者',

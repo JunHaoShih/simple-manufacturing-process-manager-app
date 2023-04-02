@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="main-panel">
+    <div class="row q-px-md">
+      <q-input
+        v-model="patternInput"
+        :label="$t('actions.search')"
+        v-on:keyup.enter="onSearch"
+      ></q-input>
+    </div>
     <q-splitter
       v-model="splitterModel"
       unit="px"
@@ -9,7 +16,7 @@
         <div class="q-pa-md">
           <q-list bordered padding class="rounded-borders text-black">
             <q-item
-              v-for="attr in customAttributesStore.attributes"
+              v-for="attr in customAttributesStore.filteredAttributes(pattern)"
               :key="attr.id"
               clickable
               v-ripple
@@ -33,8 +40,7 @@
         <CustomAttributePanel
           v-if="Object.entries(defaultAttr).length > 0"
           v-model="defaultAttr"
-          class="q-pa-md"
-          style="max-width: 1000px; margin: auto">
+          class="q-pa-md">
         </CustomAttributePanel>
       </template>
 
@@ -63,6 +69,10 @@ export default class CustomAttributesPage extends Vue {
 
   splitterModel = 350;
 
+  patternInput = '';
+
+  pattern = '';
+
   customAttributesStore = CustomAttributesStore();
 
   customAttrService = CustomAttributeService;
@@ -77,6 +87,18 @@ export default class CustomAttributesPage extends Vue {
       this.defaultAttr = firstAttr;
     }
   }
+
+  /**
+   * Apply pattern
+   */
+  onSearch(): void {
+    this.pattern = this.patternInput;
+    const attrs = this.customAttributesStore.filteredAttributes(this.pattern);
+    if (attrs) {
+      const firstAttr = attrs[0];
+      this.defaultAttr = firstAttr;
+    }
+  }
 }
 </script>
 
@@ -86,7 +108,7 @@ export default class CustomAttributesPage extends Vue {
   background: #026E81
 
 .outer-max
-  height: calc(100vh - 120px)
+  height: calc(100vh - 160px)
 
 .avatar-color
   background: #FF9933

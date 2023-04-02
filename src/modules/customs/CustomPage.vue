@@ -1,5 +1,9 @@
 <template>
-  <q-tabs align="left" indicator-color="orange" class="tabs-font">
+  <q-tabs
+    align="left"
+    indicator-color="orange"
+    class="tabs-font main-panel"
+  >
     <q-route-tab
       :label="$t('customs.attributes.title')"
       to="/customizations/attributes"

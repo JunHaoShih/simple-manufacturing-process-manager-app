@@ -108,7 +108,7 @@ export default class MainLayout extends Vue {
     ] as NavNode[];
   }
 
-  leftDrawerOpen = false;
+  leftDrawerOpen = true;
 
   async created() {
     const appUser = await this.appUserService.getCurrentUser();

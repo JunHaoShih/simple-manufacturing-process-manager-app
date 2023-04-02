@@ -15,6 +15,7 @@ export default {
     update: {
       success: 'Update success',
     },
+    search: 'Search',
   },
   base: {
     creator: 'Creater',

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-pa-sm">
     <!-- product files table -->
     <q-table
       title="Parts"
@@ -8,7 +8,7 @@
       v-model:selected="selected"
       selection="multiple"
       row-key="id"
-      class="q-mr-sm center-max outer-max"
+      class="center-max outer-max main-panel"
       dense
       :pagination="pagination"
       style="position: sticky; top: 0"
@@ -217,5 +217,5 @@ export default class PartsPage extends Vue {
 
 <style lang="sass" scoped>
 .outer-max
-  height: calc(100vh - 60px)
+  height: calc(100vh - 70px)
 </style>
