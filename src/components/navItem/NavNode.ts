@@ -4,4 +4,5 @@ export interface NavNode{
   icon?: string,
   to?: string,
   children?: NavNode[],
+  contentInsetLevel?: number,
 }

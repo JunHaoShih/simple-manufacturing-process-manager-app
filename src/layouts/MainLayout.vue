@@ -42,6 +42,8 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      :mini="!leftDrawerOpen || miniState"
+      @click.capture="drawerClick"
     >
       <q-list>
         <q-item-label
@@ -55,6 +57,21 @@
           :navNode="link"
         />
       </q-list>
+      <!--
+        in this case, we use a button (can be anything)
+        so that user can switch back
+        to mini-mode
+      -->
+      <div class="q-mini-drawer-hide absolute" style="top: 55px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="accent"
+          icon="chevron_left"
+          @click="miniState = true"
+        ></q-btn>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -96,6 +113,7 @@ export default class MainLayout extends Vue {
         title: this.i18n.t('customs.title'),
         caption: this.i18n.t('customs.caption'),
         icon: 'tune',
+        contentInsetLevel: 0.25,
         children: [
           {
             title: this.i18n.t('customs.attributes.title'),
@@ -109,6 +127,8 @@ export default class MainLayout extends Vue {
   }
 
   leftDrawerOpen = true;
+
+  miniState = false;
 
   async created() {
     const appUser = await this.appUserService.getCurrentUser();
@@ -128,6 +148,12 @@ export default class MainLayout extends Vue {
   onLogoutClicked(): void {
     localStorage.removeItem('token');
     this.$router.push('/login');
+  }
+
+  drawerClick(): void {
+    if (this.miniState) {
+      this.miniState = false;
+    }
   }
 }
 

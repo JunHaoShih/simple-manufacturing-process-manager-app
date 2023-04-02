@@ -21,6 +21,7 @@
     :icon="navNode.icon"
     :label="navNode.title"
     :caption="navNode.caption"
+    :content-inset-level="navNode.contentInsetLevel ? navNode.contentInsetLevel : 0"
     @click="onExpansionClicked"
   >
     <NavItem
