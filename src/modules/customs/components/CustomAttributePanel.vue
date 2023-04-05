@@ -10,7 +10,7 @@
       <div v-else class="row">
         <q-btn dense round flat color="red" icon="close"
           class="bg-grey-4 q-mr-sm"
-          @click="readonly = !readonly"
+          @click="onCancelClicked"
         />
         <q-btn dense round flat color="green" icon="done"
           class="bg-grey-4"
@@ -71,6 +71,11 @@
           :options="displayTypesStore.i18nOptions"
           :readonly="readonly"
           @update:modelValue="onDisplayTypeUpdated" />
+        <CustomOptionsPanel
+          v-if="defaultAttr.displayType === 1"
+          v-model="defaultAttr.options"
+          :readonly="readonly"
+        />
         <!-- remarks -->
         <div class="q-ma-sm">{{ $t('remarks') }}</div>
         <q-input
@@ -116,11 +121,18 @@ import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
 import { AvailableLocales } from 'src/models/Locale';
 import { CustomAttributeService } from '../services/CustomAttributeService';
-import { AttributeTypeOption, CustomAttribute, DisplayTypeOption } from '../models/CustomAttribute';
+import {
+  AttributeTypeOption, CustomAttribute, DisplayTypeOption,
+} from '../models/CustomAttribute';
 import AttributeTypesStore from '../stores/AttributeTypesStore';
 import DisplayTypesStore from '../stores/DisplayTypesStore';
+import CustomOptionsPanel from './CustomOptionsPanel.vue';
 
-@Component({})
+@Component({
+  components: {
+    CustomOptionsPanel,
+  },
+})
 export default class CustomAttributePanel extends Vue {
   i18n = useI18n();
 
@@ -176,6 +188,7 @@ export default class CustomAttributePanel extends Vue {
       displayType: this.defaultAttr.displayType,
       isDisabled: this.defaultAttr.isDisabled,
       languages: this.defaultAttr.languages,
+      options: this.defaultAttr.options,
       remarks: this.defaultAttr.remarks,
     });
 
@@ -184,6 +197,7 @@ export default class CustomAttributePanel extends Vue {
       this.inputAttr.name = this.defaultAttr.name;
       this.inputAttr.remarks = this.defaultAttr.remarks;
       this.inputAttr.languages = this.defaultAttr.languages;
+      this.inputAttr.options = this.defaultAttr.options;
       this.inputAttr.isDisabled = this.defaultAttr.isDisabled;
       this.inputAttr.createUser = this.defaultAttr.createUser;
       this.inputAttr.updateUser = this.defaultAttr.updateUser;
@@ -195,6 +209,10 @@ export default class CustomAttributePanel extends Vue {
         color: 'secondary',
       });
     }
+  }
+
+  onCancelClicked(): void {
+    this.initialize();
   }
 
   onAttrTypeUpdated(attrOption: AttributeTypeOption) {

@@ -74,12 +74,21 @@ export default {
       longerThan50: '字數不可大於50',
       invalidChar: '只能含有0-9、aA-zZ、-、_',
     },
+    customAttributes: {
+      options: {
+        longerThan20: '字數不可大於20',
+        keyInvalidChar: '只能含有0-9、A-Z、-、_',
+        valueInvalidChar: '不可含有任何非法字元',
+      },
+    },
   },
   source: '來源',
   unit: '單位',
   remarks: '備註',
   language: '語言',
   info: '資訊',
+  key: '鍵',
+  value: '值',
   lang: {
     zhTW: '繁體中文',
     enUS: 'English(英文)',

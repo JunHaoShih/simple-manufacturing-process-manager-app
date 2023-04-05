@@ -68,17 +68,26 @@ export default {
     checkout: 'Checkout',
   },
   validations: {
+    notNull: 'Cannot be empty',
     parts: {
-      notNull: 'Cannot be empty',
       shorterThan3: 'Cannot be shorter than 3',
       longerThan50: 'Cannot be longer than 50',
       invalidChar: 'Only number, alphabets, dash and underscore are valid',
+    },
+    customAttributes: {
+      options: {
+        longerThan20: 'Cannot be longer than 20',
+        keyInvalidChar: 'Only number, uppercase alphabets, dash and underscore are valid',
+        valueInvalidChar: 'Cannot cantain any invalid characters',
+      },
     },
   },
   source: 'Source',
   unit: 'Unit',
   remarks: 'Remarks',
   language: 'Language',
+  key: 'Key',
+  value: 'Value',
   info: 'Info',
   lang: {
     zhTW: '繁體中文(Traditional Chinese)',

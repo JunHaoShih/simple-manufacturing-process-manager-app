@@ -112,7 +112,7 @@ export default class CustomAttributesPage extends Vue {
   background: #026E81
 
 .outer-max
-  height: calc(100vh - 160px)
+  height: calc(100vh - 180px)
 
 .avatar-color
   background: #FF9933
