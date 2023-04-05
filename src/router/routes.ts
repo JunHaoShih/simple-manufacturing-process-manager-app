@@ -12,6 +12,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/modules/customs/CustomPage.vue'),
         children: [
           { path: '/customizations/attributes', component: () => import('src/modules/customs/CustomAttributesPage.vue') },
+          { path: '/customizations/attributeLinks', component: () => import('src/modules/customs/AttributeLinksPage.vue') },
         ],
       },
     ],

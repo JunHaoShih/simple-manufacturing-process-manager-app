@@ -55,6 +55,10 @@ export default {
         value: 'Value',
       },
     },
+    attributeLinks: {
+      title: 'Attribute links',
+      caption: 'Link your attributes to object types',
+    },
     generic: {
       number: 'Number',
       name: 'Name',

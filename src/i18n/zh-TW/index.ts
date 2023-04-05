@@ -55,6 +55,10 @@ export default {
         value: '值',
       },
     },
+    attributeLinks: {
+      title: '自訂屬性關聯',
+      caption: '關聯你的自訂屬性到指定物件類別',
+    },
     generic: {
       number: '編號',
       name: '名稱',

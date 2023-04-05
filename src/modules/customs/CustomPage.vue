@@ -9,6 +9,11 @@
       to="/customizations/attributes"
       exact
     />
+    <q-route-tab
+      :label="$t('customs.attributeLinks.title')"
+      to="/customizations/attributeLinks"
+      exact
+    />
   </q-tabs>
   <router-view />
 </template>

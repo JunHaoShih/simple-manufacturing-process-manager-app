@@ -121,6 +121,12 @@ export default class MainLayout extends Vue {
             icon: 'handyman',
             to: '/customizations/attributes',
           },
+          {
+            title: this.i18n.t('customs.attributeLinks.title'),
+            caption: this.i18n.t('customs.attributeLinks.caption'),
+            icon: 'link',
+            to: '/customizations/attributeLinks',
+          },
         ],
       },
     ] as NavNode[];
