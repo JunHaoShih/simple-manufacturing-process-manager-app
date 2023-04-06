@@ -42,6 +42,8 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      :mini="!leftDrawerOpen || miniState"
+      @click.capture="drawerClick"
     >
       <q-list>
         <q-item-label
@@ -52,9 +54,24 @@
         <NavItem
           v-for="link in essentialLinks"
           :key="link.title"
-          v-bind="link"
+          :navNode="link"
         />
       </q-list>
+      <!--
+        in this case, we use a button (can be anything)
+        so that user can switch back
+        to mini-mode
+      -->
+      <div class="q-mini-drawer-hide absolute" style="top: 55px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="accent"
+          icon="chevron_left"
+          @click="miniState = true"
+        ></q-btn>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -66,10 +83,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
-import NavItem from 'src/components/NavItem.vue';
+import NavItem from 'src/components/navItem/NavItem.vue';
 import AppUserService from 'src/modules/appUsers/AppUserService';
 import CurrentUserStore from 'src/modules/appUsers/stores/CurrentUserStore';
 import { WritableComputedRef } from 'vue';
+import { NavNode } from 'src/components/navItem/NavNode';
 
 @Component({
   components: {
@@ -83,7 +101,7 @@ export default class MainLayout extends Vue {
 
   i18n = useI18n();
 
-  get essentialLinks() {
+  get essentialLinks(): NavNode[] {
     return [
       {
         title: this.i18n.t('parts.title'),
@@ -91,10 +109,32 @@ export default class MainLayout extends Vue {
         icon: 'settings',
         to: '/parts',
       },
-    ];
+      {
+        title: this.i18n.t('customs.title'),
+        caption: this.i18n.t('customs.caption'),
+        icon: 'tune',
+        contentInsetLevel: 0.25,
+        children: [
+          {
+            title: this.i18n.t('customs.attributes.title'),
+            caption: this.i18n.t('customs.attributes.caption'),
+            icon: 'handyman',
+            to: '/customizations/attributes',
+          },
+          {
+            title: this.i18n.t('customs.attributeLinks.title'),
+            caption: this.i18n.t('customs.attributeLinks.caption'),
+            icon: 'link',
+            to: '/customizations/attributeLinks',
+          },
+        ],
+      },
+    ] as NavNode[];
   }
 
-  leftDrawerOpen = false;
+  leftDrawerOpen = true;
+
+  miniState = false;
 
   async created() {
     const appUser = await this.appUserService.getCurrentUser();
@@ -114,6 +154,12 @@ export default class MainLayout extends Vue {
   onLogoutClicked(): void {
     localStorage.removeItem('token');
     this.$router.push('/login');
+  }
+
+  drawerClick(): void {
+    if (this.miniState) {
+      this.miniState = false;
+    }
   }
 }
 

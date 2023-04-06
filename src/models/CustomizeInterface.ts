@@ -1,14 +1,11 @@
+import { ReturnBase } from './ReturnBase';
+
 /**
  * 可自定義類型
  */
-export interface CustomizeInterface {
-  id: number,
+export interface CustomizeInterface extends ReturnBase {
   number: string,
   name: string,
   isSystemDefault: boolean,
-  createUser: string,
-  createDate: Date,
-  updateUser: string,
-  updateDate: Date,
-  remarks: string | null,
+  languages: Record<string, string>,
 }

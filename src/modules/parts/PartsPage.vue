@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="q-pa-sm">
     <!-- product files table -->
     <q-table
       title="Parts"
-      :rows="partsStore.$state"
+      :rows="partsStore.parts"
       :columns="columns"
       v-model:selected="selected"
       selection="multiple"
       row-key="id"
-      class="q-mr-sm center-max outer-max"
+      class="center-max outer-max main-panel"
       dense
       :pagination="pagination"
       style="position: sticky; top: 0"
@@ -17,6 +17,10 @@
       <template v-slot:top>
         <q-btn color="primary" :label="$t('actions.add')" @click="prompt=true"></q-btn>
         <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
+        <q-space />
+        <q-input v-model="pattern" type="text" label="Search"
+          v-on:keyup.enter="onSearchEnter"
+        />
       </template>
       <!-- action buttons -->
       <template v-slot:body-cell-actions="props">
@@ -57,18 +61,18 @@
       <!-- create date -->
       <template v-slot:body-cell-createDate="props">
         <q-td :props="props">
-          {{ partsStore.getCreateDateStr(props.row.version.createDate as Date) }}
+          {{ new Date(props.row.version.createDate).getDateStr() }}
           <q-tooltip>
-            {{ partsStore.getCreateDateFullStr(props.row.version.createDate as Date) }}
+            {{ new Date(props.row.version.createDate).toString() }}
           </q-tooltip>
         </q-td>
       </template>
       <!-- modified date -->
       <template v-slot:body-cell-updateDate="props">
         <q-td :props="props">
-          {{ partsStore.getCreateDateStr(props.row.version.updateDate as Date) }}
+          {{ new Date(props.row.version.updateDate).getDateStr() }}
           <q-tooltip>
-            {{ partsStore.getCreateDateFullStr(props.row.version.updateDate as Date) }}
+            {{ new Date(props.row.version.updateDate).toString() }}
           </q-tooltip>
         </q-td>
       </template>
@@ -93,18 +97,19 @@
         </q-menu>
       </template>
     </q-table>
-    <PartDialog v-model="prompt"></PartDialog>
+    <PartDialog v-model="prompt" @onPartCreated="onPartCreated"></PartDialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator';
+import { Component, Vue, Watch } from 'vue-facing-decorator';
 import { QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './PartService';
 import { Part, PartVersion } from './models/Part';
 import PartDialog from './components/PartDialog.vue';
 import PartsStore from './stores/PartsStore';
+import 'src/extensions/date.extensions';
 
 @Component({
   components: {
@@ -168,10 +173,7 @@ export default class PartsPage extends Vue {
 
   async created() {
     this.pattern = this.$route.query.pattern as string;
-    const parts = await PartService.getByPattern(this.pattern);
-    if (parts) {
-      this.partsStore.$state = parts;
-    }
+    await this.searchParts();
   }
 
   onInfoClicked(part: Part): void {
@@ -184,10 +186,36 @@ export default class PartsPage extends Vue {
       });
     }
   }
+
+  onSearchEnter(): void {
+    this.$router.push({
+      path: '/parts',
+      query: { pattern: this.pattern },
+    });
+  }
+
+  async searchParts(): Promise<void> {
+    const parts = await PartService.getByPattern(this.pattern);
+    if (parts) {
+      this.partsStore.parts = parts;
+    }
+  }
+
+  @Watch('$route.query.pattern')
+  async onTest1(newValue: string, oldValue: string) {
+    if (this.$route.path === '/parts') {
+      this.pattern = newValue;
+      await this.searchParts();
+    }
+  }
+
+  onPartCreated(newPart: Part) {
+    this.partsStore.unshiftPart(newPart);
+  }
 }
 </script>
 
 <style lang="sass" scoped>
 .outer-max
-  height: calc(100vh - 60px)
+  height: calc(100vh - 70px)
 </style>

@@ -5,7 +5,7 @@ import { CreatePartDTO } from './dtos/CreatePartDTO';
 export const validateNumberRules: ValidateRule[] = [
   {
     validate: (val) => !!val,
-    message: 'validations.parts.notNull',
+    message: 'validations.notNull',
   },
   {
     validate: (val) => val.length >= 3,
@@ -24,7 +24,7 @@ export const validateNumberRules: ValidateRule[] = [
 export const validateNameRules: ValidateRule[] = [
   {
     validate: (val) => !!val,
-    message: 'validations.parts.notNull',
+    message: 'validations.notNull',
   },
   {
     validate: (val) => val.length <= 50,

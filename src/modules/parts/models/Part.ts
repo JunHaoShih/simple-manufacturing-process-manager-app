@@ -1,3 +1,4 @@
+import { ReturnBase } from 'src/models/ReturnBase';
 import { SelectOption } from 'src/models/SelectOption';
 
 export enum ViewType {
@@ -7,21 +8,14 @@ export enum ViewType {
 
 export type ViewTypeOption = SelectOption<ViewType>
 
-export interface PartVersion {
-  id: number,
+export interface PartVersion extends ReturnBase {
   masterId: number,
   iteration: number,
   revision: number,
   checkout: boolean,
-  createUser: string,
-  createDate: Date,
-  updateUser: string,
-  updateDate: Date,
-  remarks: string | null,
 }
 
-export interface Part {
-  id: number,
+export interface Part extends ReturnBase {
   number: string,
   name: string,
   isEndItem: boolean,
@@ -30,10 +24,5 @@ export interface Part {
   viewSubtypeId: number,
   checkout: boolean,
   checkoutId: number | null,
-  createUser: string,
-  createDate: Date,
-  updateUser: string,
-  updateDate: Date,
-  remarks: string | null,
   version: PartVersion,
 }

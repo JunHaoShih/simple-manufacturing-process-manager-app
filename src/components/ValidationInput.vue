@@ -1,8 +1,13 @@
 <template>
-  <q-input :label="label" dense v-model="inputValue"
+  <q-input
+    :label="label"
+    v-model="inputValue"
+    dense
+    filled
     :error="isValueError()"
     :error-message="i18nErrorMessage"
-  ></q-input>
+    :readonly="readonly"
+  />
 </template>
 
 <script lang="ts">
@@ -16,10 +21,10 @@ export default class ValidationInput extends Vue {
   i18n = useI18n();
 
   @Prop({
-    required: true,
+    required: false,
     type: String,
   })
-  readonly label!: string;
+  readonly label?: string;
 
   @Prop({
     required: false,
@@ -31,6 +36,12 @@ export default class ValidationInput extends Vue {
   @Model
   // eslint-disable-next-line indent
   inputValue!: string;
+
+  @Prop({
+    required: false,
+  })
+  // eslint-disable-next-line indent
+  readonly? = true;
 
   isValueError(): boolean {
     if (!this.inputValidator) {
