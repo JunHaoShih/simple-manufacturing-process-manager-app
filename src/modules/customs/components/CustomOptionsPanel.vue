@@ -65,7 +65,7 @@
         >
           <div class="q-ma-sm">{{ locale }}</div>
           <ValidationInput v-model="editedOption.languages[locale]"
-            :inputValidator="customOptionValidationService.checkOptionValueRules"
+            :inputValidator="langValidateService.checkLanguageRules"
           />
         </div>
       </q-card-section>
@@ -89,7 +89,8 @@ import ValidationInput from 'src/components/ValidationInput.vue';
 import { AvailableLocales } from 'src/models/Locale';
 import { DialogType } from 'src/models/DialogType';
 import { CustomOption } from '../models/CustomAttribute';
-import { CustomOptionValidationService } from '../CustomOptionValidateService';
+import { CustomOptionValidateService } from '../services/CustomOptionValidateService';
+import { LanguageValidateService } from '../services/LanguageValidateService';
 
 @Component({
   components: {
@@ -103,7 +104,9 @@ export default class CustomOptionsPanel extends Vue {
 
   availableLocales = AvailableLocales;
 
-  customOptionValidationService = CustomOptionValidationService;
+  customOptionValidationService = CustomOptionValidateService;
+
+  langValidateService = LanguageValidateService;
 
   /**
    * Decide if dialog will be displayed
@@ -171,9 +174,16 @@ export default class CustomOptionsPanel extends Vue {
   }
 
   onDialogConfirm(): void {
+    const error = this.customOptionValidationService.checkOptionRules(this.editedOption);
+    if (error) {
+      this.$q.notify({
+        message: `Error: ${this.i18n.t(error)}`,
+        color: 'red',
+      });
+      return;
+    }
     switch (this.dialogMode) {
       case DialogType.Edit: {
-        // this.productZippersStore.updateProductFile(this.editedProductFile);
         const targetOption = this.inputOptions
           .find((option) => option.key === this.editedOption.key);
         if (!targetOption) {

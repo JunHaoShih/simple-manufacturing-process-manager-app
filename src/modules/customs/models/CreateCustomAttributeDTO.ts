@@ -1,4 +1,4 @@
-import { AttributeType, DisplayType } from './CustomAttribute';
+import { AttributeType, CustomOption, DisplayType } from './CustomAttribute';
 
 export interface CreateCustomAttributeDTO {
   number: string,
@@ -7,5 +7,9 @@ export interface CreateCustomAttributeDTO {
   displayType: DisplayType,
   isDisabled: boolean,
   languages: Record<string, string>,
+  /**
+   * 自訂選項清單
+   */
+  options: CustomOption[],
   remarks: string,
 }

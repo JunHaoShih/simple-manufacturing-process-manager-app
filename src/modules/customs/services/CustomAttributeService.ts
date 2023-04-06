@@ -103,8 +103,41 @@ const getAll = async () : Promise<CustomAttribute[] | null> => {
   return attributes;
 };
 
+/**
+ * Delete custom attribute by id
+ * @param id custom attribute id
+ * @returns body code
+ */
+const remove = async (id: number): Promise<number | null> => {
+  const returnMessage = await api.delete(`api/CustomAttribute/${id}`)
+    .then((response): number => {
+      const data = response.data as SPRMResponse<string>;
+      return data.code;
+    })
+    .catch((error) => {
+      let message = '';
+      if (error.response) {
+        const body: SPRMResponse<string> = error.response.data;
+        message = `Error: ${body.code}, ${body.message}`;
+      } else if (error.request) {
+        // The request was made but no response was received
+        message = 'Error: No response';
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        message = 'Something went wrong';
+      }
+      Notify.create({
+        message,
+        color: 'red',
+      });
+      return null;
+    });
+  return returnMessage;
+};
+
 export const CustomAttributeService = {
   create,
   getAll,
   update,
+  remove,
 };

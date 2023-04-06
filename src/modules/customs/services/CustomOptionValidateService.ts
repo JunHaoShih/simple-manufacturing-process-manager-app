@@ -1,4 +1,6 @@
 import { ValidateRule } from 'src/models/ValidateRule';
+import { CustomOption } from '../models/CustomAttribute';
+import { LanguageValidateService } from './LanguageValidateService';
 
 const validateOptionKeyRules: ValidateRule[] = [
   {
@@ -46,7 +48,27 @@ const checkOptionValueRules = (number: string): string | undefined => {
   return result;
 };
 
-export const CustomOptionValidationService = {
+const checkOptionRules = (option: CustomOption): string | undefined => {
+  let result = checkOptionKeyRules(option.key);
+  if (result) {
+    return result;
+  }
+  result = checkOptionValueRules(option.value);
+  if (result) {
+    return result;
+  }
+  const keys = Object.keys(option.languages);
+  for (let i = 0; i < keys.length; i += 1) {
+    result = LanguageValidateService.checkLanguageRules(option.languages[keys[i]]);
+    if (result) {
+      return result;
+    }
+  }
+  return result;
+};
+
+export const CustomOptionValidateService = {
   checkOptionKeyRules,
   checkOptionValueRules,
+  checkOptionRules,
 };

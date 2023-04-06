@@ -12,8 +12,13 @@ export default {
     inserts: {
       success: 'Insert success',
     },
-    update: {
+    updates: {
       success: 'Update success',
+    },
+    deletes: {
+      success: 'Delete success',
+      confirm: 'Are you sure you want to delete',
+      atLeastOne: 'You need to select at least one',
     },
     search: 'Search',
   },
@@ -54,6 +59,7 @@ export default {
         singleSelect: 'Single select',
         value: 'Value',
       },
+      new: 'New custom attribute',
     },
     attributeLinks: {
       title: 'Attribute links',
@@ -84,6 +90,13 @@ export default {
         keyInvalidChar: 'Only number, uppercase alphabets, dash and underscore are valid',
         valueInvalidChar: 'Cannot cantain any invalid characters',
       },
+      longerThan20: 'Cannot be longer than 20',
+      numberInvalidChar: 'Only number, uppercase alphabets, dash and underscore are valid',
+      nameInvalidChar: 'Cannot cantain any invalid characters',
+    },
+    languages: {
+      longerThan20: 'Cannot be longer than 20',
+      invalidChar: 'Only number, alphabets, dash and underscore are valid',
     },
   },
   source: 'Source',

@@ -1,8 +1,8 @@
 <template>
   <div class="main-panel">
     <div class="row q-pa-md">
-      <q-btn color="primary" :label="$t('actions.add')"></q-btn>
-      <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
+      <q-btn color="primary" :label="$t('actions.add')" @click="onAddClicked"></q-btn>
+      <q-btn color="primary" :label="$t('actions.delete')" @click="onDeleteClicked"></q-btn>
       <q-space/>
       <q-input
         dense
@@ -41,33 +41,39 @@
       </template>
 
       <template v-slot:after>
-        <CustomAttributePanel
+        <CustomAttributeEditPanel
           v-if="defaultAttr && Object.entries(defaultAttr).length > 0"
           v-model="defaultAttr"
           class="q-pa-md">
-        </CustomAttributePanel>
+        </CustomAttributeEditPanel>
       </template>
 
     </q-splitter>
+    <CustomAttributeAddDialog v-model="dialogPrompt"></CustomAttributeAddDialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
+import { useQuasar } from 'quasar';
 import { CustomAttributeService } from './services/CustomAttributeService';
 import CustomAttributesStore from './stores/CustomAttributesStore';
 import { CustomAttribute } from './models/CustomAttribute';
 import 'src/extensions/date.extensions';
-import CustomAttributePanel from './components/CustomAttributePanel.vue';
+import CustomAttributeEditPanel from './components/CustomAttributeEditPanel.vue';
+import CustomAttributeAddDialog from './components/CustomAttributeAddDialog.vue';
 
 @Component({
   components: {
-    CustomAttributePanel,
+    CustomAttributeEditPanel,
+    CustomAttributeAddDialog,
   },
 })
 export default class CustomAttributesPage extends Vue {
   i18n = useI18n();
+
+  $q = useQuasar();
 
   defaultAttr = {} as CustomAttribute;
 
@@ -76,6 +82,8 @@ export default class CustomAttributesPage extends Vue {
   patternInput = '';
 
   pattern = '';
+
+  dialogPrompt = false;
 
   customAttributesStore = CustomAttributesStore();
 
@@ -102,6 +110,40 @@ export default class CustomAttributesPage extends Vue {
       const firstAttr = attrs[0];
       this.defaultAttr = firstAttr;
     }
+  }
+
+  onAddClicked(): void {
+    this.dialogPrompt = true;
+  }
+
+  onDeleteClicked(): void {
+    if (!this.defaultAttr || Object.entries(this.defaultAttr).length === 0) {
+      this.$q.notify({
+        message: `${this.i18n.t('actions.deletes.atLeastOne')}`,
+        color: 'red',
+      });
+      return;
+    }
+    this.$q.dialog({
+      title: 'Confirm',
+      message: `${this.i18n.t('actions.deletes.confirm')} ${this.defaultAttr.number}?`,
+      cancel: true,
+      persistent: true,
+    }).onOk(async () => {
+      const code = await this.customAttrService.remove(this.defaultAttr.id);
+      if (code === 0) {
+        this.$q.notify({
+          message: `${this.defaultAttr.number}: ${this.i18n.t('actions.deletes.success')}`,
+          color: 'secondary',
+        });
+        this.customAttributesStore.removeAttribute(this.defaultAttr.id);
+        const attrs = this.customAttributesStore.filteredAttributes(this.pattern);
+        if (attrs) {
+          const firstAttr = attrs[0];
+          this.defaultAttr = firstAttr;
+        }
+      }
+    });
   }
 }
 </script>

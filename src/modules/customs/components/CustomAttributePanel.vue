@@ -1,32 +1,5 @@
 <template>
   <div>
-    <!-- action bar -->
-    <div class="row shadow-1 q-mb-sm q-pa-sm"
-      style="border-radius: 10px"
-    >
-      <q-btn v-if="readonly" dense round flat color="grey" icon="edit"
-        @click="readonly = !readonly"
-      />
-      <div v-else class="row">
-        <q-btn dense round flat color="red" icon="close"
-          class="bg-grey-4 q-mr-sm"
-          @click="onCancelClicked"
-        />
-        <q-btn dense round flat color="green" icon="done"
-          class="bg-grey-4"
-          @click="onConfirmClicked"
-        />
-      </div>
-      <q-space/>
-      <div class="q-ma-sm">
-        Last edited: {{ new Date(defaultAttr.updateDate).getDateStr() }}
-        <q-tooltip>
-          <div>{{ new Date(defaultAttr.updateDate).toString() }}</div>
-          <div>By {{ defaultAttr.updateUser }}</div>
-        </q-tooltip>
-      </div>
-    </div>
-
     <!-- info area -->
     <q-expansion-item
       v-model="infoExpanded"
@@ -39,16 +12,24 @@
       <div class="q-pa-sm">
         <!-- number -->
         <div class="q-ma-sm">{{ $t('customs.generic.number') }}</div>
-        <q-input v-model="defaultAttr.number" dense filled :readonly="readonly"></q-input>
+        <ValidationInput
+          v-model="inputAttr.number"
+          :readonly="readonly"
+          :inputValidator="customAttributeValidationService.checkAttributeNumberRules"
+        />
         <!-- name -->
         <div class="q-ma-sm">{{ $t('customs.generic.name') }}</div>
-        <q-input v-model="defaultAttr.name" dense filled :readonly="readonly"></q-input>
+        <ValidationInput
+          v-model="inputAttr.name"
+          :readonly="readonly"
+          :inputValidator="customAttributeValidationService.checkAttributeNameRules"
+        />
         <!-- disable -->
         <div class="row">
           <q-checkbox
             left-label
             class="q-ma-sm"
-            v-model="defaultAttr.isDisabled"
+            v-model="inputAttr.isDisabled"
             :disable="readonly"
             :label="$t('customs.generic.disable')"
           />
@@ -72,14 +53,14 @@
           :readonly="readonly"
           @update:modelValue="onDisplayTypeUpdated" />
         <CustomOptionsPanel
-          v-if="defaultAttr.displayType === 1"
-          v-model="defaultAttr.options"
+          v-if="inputAttr.displayType === 1"
+          v-model="inputAttr.options"
           :readonly="readonly"
         />
         <!-- remarks -->
         <div class="q-ma-sm">{{ $t('remarks') }}</div>
         <q-input
-          v-model="defaultAttr.remarks"
+          v-model="inputAttr.remarks"
           :readonly="readonly"
           filled
           type="textarea"
@@ -104,8 +85,10 @@
           :key="locale"
         >
           <div class="q-ma-sm">{{ locale }}</div>
-          <q-input v-model="defaultAttr.languages[locale]"
-            dense filled :readonly="readonly"></q-input>
+          <ValidationInput v-model="inputAttr.languages[locale]"
+            :readonly="readonly"
+            :inputValidator="langValidateService.checkLanguageRules"
+          />
         </div>
       </div>
     </q-expansion-item>
@@ -114,23 +97,26 @@
 
 <script lang="ts">
 import {
-  Component, Model, Vue, Watch,
+  Component, Model, Prop, Vue, Watch,
 } from 'vue-facing-decorator';
-import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
 import { AvailableLocales } from 'src/models/Locale';
-import { CustomAttributeService } from '../services/CustomAttributeService';
+import ValidationInput from 'src/components/ValidationInput.vue';
 import {
   AttributeTypeOption, CustomAttribute, DisplayTypeOption,
 } from '../models/CustomAttribute';
 import AttributeTypesStore from '../stores/AttributeTypesStore';
 import DisplayTypesStore from '../stores/DisplayTypesStore';
 import CustomOptionsPanel from './CustomOptionsPanel.vue';
+import { CustomAttributeValidationService } from '../services/CustomAttributeValidationService';
+import { CustomOptionValidateService } from '../services/CustomOptionValidateService';
+import { LanguageValidateService } from '../services/LanguageValidateService';
 
 @Component({
   components: {
     CustomOptionsPanel,
+    ValidationInput,
   },
 })
 export default class CustomAttributePanel extends Vue {
@@ -140,18 +126,20 @@ export default class CustomAttributePanel extends Vue {
 
   displayTypesStore = DisplayTypesStore();
 
-  $q = useQuasar();
-
-  customAttrService = CustomAttributeService;
-
   availableLocales = AvailableLocales;
+
+  customAttributeValidationService = CustomAttributeValidationService;
+
+  customOptionValidationService = CustomOptionValidateService;
+
+  langValidateService = LanguageValidateService;
 
   @Model
   // eslint-disable-next-line indent
   inputAttr!: CustomAttribute;
 
-  defaultAttr = {} as CustomAttribute;
-
+  @Prop
+  // eslint-disable-next-line indent
   readonly = true;
 
   infoExpanded = true;
@@ -172,47 +160,10 @@ export default class CustomAttributePanel extends Vue {
   }
 
   initialize(): void {
-    this.readonly = true;
-    this.defaultAttr = JSON.parse(JSON.stringify(this.inputAttr));
-    const attrType = this.attrTypesStore.getOption(this.defaultAttr.attributeType);
+    const attrType = this.attrTypesStore.getOption(this.inputAttr.attributeType);
     this.attrTypeOption = attrType;
-    const displayType = this.displayTypesStore.getOption(this.defaultAttr.displayType);
+    const displayType = this.displayTypesStore.getOption(this.inputAttr.displayType);
     this.displayTypeOption = displayType;
-  }
-
-  async onConfirmClicked(): Promise<void> {
-    const code = await this.customAttrService.update(this.defaultAttr.id, {
-      number: this.defaultAttr.number,
-      name: this.defaultAttr.name,
-      attributeType: this.defaultAttr.attributeType,
-      displayType: this.defaultAttr.displayType,
-      isDisabled: this.defaultAttr.isDisabled,
-      languages: this.defaultAttr.languages,
-      options: this.defaultAttr.options,
-      remarks: this.defaultAttr.remarks,
-    });
-
-    if (code === 0) {
-      this.inputAttr.number = this.defaultAttr.number;
-      this.inputAttr.name = this.defaultAttr.name;
-      this.inputAttr.remarks = this.defaultAttr.remarks;
-      this.inputAttr.languages = this.defaultAttr.languages;
-      this.inputAttr.options = this.defaultAttr.options;
-      this.inputAttr.isDisabled = this.defaultAttr.isDisabled;
-      this.inputAttr.createUser = this.defaultAttr.createUser;
-      this.inputAttr.updateUser = this.defaultAttr.updateUser;
-      this.inputAttr.createDate = this.defaultAttr.createDate;
-      this.inputAttr.updateDate = this.defaultAttr.updateDate;
-      this.readonly = true;
-      this.$q.notify({
-        message: `${this.inputAttr.number}: ${this.i18n.t('actions.update.success')}`,
-        color: 'secondary',
-      });
-    }
-  }
-
-  onCancelClicked(): void {
-    this.initialize();
   }
 
   onAttrTypeUpdated(attrOption: AttributeTypeOption) {

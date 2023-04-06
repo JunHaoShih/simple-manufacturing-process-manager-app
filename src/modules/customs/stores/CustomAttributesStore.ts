@@ -18,6 +18,12 @@ const CustomAttributesStore = defineStore('customAttributes', {
     setAttributes(attrs: CustomAttribute[]): void {
       this.attributes = attrs;
     },
+    addAttribute(attr: CustomAttribute): void {
+      this.attributes.push(attr);
+    },
+    removeAttribute(id: number): void {
+      this.attributes = this.attributes.filter((attr) => attr.id !== id);
+    },
   },
 });
 

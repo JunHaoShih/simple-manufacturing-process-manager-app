@@ -41,15 +41,10 @@
 import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
-import CustomAttributePanel from './components/CustomAttributePanel.vue';
 import { ObjectTypeService } from '../objectTypes/ObjectTypeService';
 import { ObjectType } from '../objectTypes/models/ObjectType';
 
-@Component({
-  components: {
-    CustomAttributePanel,
-  },
-})
+@Component({})
 export default class AttributeLinksPage extends Vue {
   i18n = useI18n();
 

@@ -1,10 +1,13 @@
 <template>
-  <q-input :label="label" dense v-model="inputValue"
+  <q-input
+    :label="label"
+    v-model="inputValue"
+    dense
     filled
     :error="isValueError()"
     :error-message="i18nErrorMessage"
     :readonly="readonly"
-  ></q-input>
+  />
 </template>
 
 <script lang="ts">

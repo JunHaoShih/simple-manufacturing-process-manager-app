@@ -12,8 +12,13 @@ export default {
     inserts: {
       success: '新增成功',
     },
-    update: {
+    updates: {
       success: '更新成功',
+    },
+    deletes: {
+      success: '刪除成功',
+      confirm: '確定刪除',
+      atLeastOne: '至少要選擇一筆',
     },
     search: '搜尋',
   },
@@ -54,6 +59,7 @@ export default {
         singleSelect: '單選',
         value: '值',
       },
+      new: '新增自訂屬性',
     },
     attributeLinks: {
       title: '自訂屬性關聯',
@@ -72,6 +78,7 @@ export default {
     checkout: '出庫',
   },
   validations: {
+    notNull: '不可為空',
     parts: {
       notNull: '不可為空',
       shorterThan3: '字數不可少於3',
@@ -84,6 +91,13 @@ export default {
         keyInvalidChar: '只能含有0-9、A-Z、-、_',
         valueInvalidChar: '不可含有任何非法字元',
       },
+      longerThan20: '字數不可大於20',
+      numberInvalidChar: '只能含有0-9、A-Z、-、_',
+      nameInvalidChar: '不可含有任何非法字元',
+    },
+    languages: {
+      longerThan20: '字數不可大於20',
+      invalidChar: '不可含有任何非法字元',
     },
   },
   source: '來源',
