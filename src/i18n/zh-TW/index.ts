@@ -62,7 +62,8 @@ export default {
       new: '新增自訂屬性',
     },
     attributeLinks: {
-      title: '自訂屬性關聯',
+      new: '新增屬性關聯',
+      title: '屬性關聯',
       caption: '關聯你的自訂屬性到指定物件類別',
     },
     generic: {
