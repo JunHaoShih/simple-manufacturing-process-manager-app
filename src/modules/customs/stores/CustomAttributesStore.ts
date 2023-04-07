@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 import { CustomAttribute } from '../models/CustomAttribute';
+import { CustomAttributeService } from '../services/CustomAttributeService';
 
 export interface CustomAttributesContainer {
   attributes: CustomAttribute[],
 }
 
-const CustomAttributesStore = defineStore('customAttributes', {
+export const CustomAttributesStore = defineStore('customAttributes', {
   state: (): CustomAttributesContainer => ({
     attributes: [],
   }),
@@ -15,6 +16,12 @@ const CustomAttributesStore = defineStore('customAttributes', {
     ),
   },
   actions: {
+    async initialize(): Promise<void> {
+      const attrs = await CustomAttributeService.getAll();
+      if (attrs) {
+        this.setAttributes(attrs);
+      }
+    },
     setAttributes(attrs: CustomAttribute[]): void {
       this.attributes = attrs;
     },
@@ -26,5 +33,3 @@ const CustomAttributesStore = defineStore('customAttributes', {
     },
   },
 });
-
-export default CustomAttributesStore;

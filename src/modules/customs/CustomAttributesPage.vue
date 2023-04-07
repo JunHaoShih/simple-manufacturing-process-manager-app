@@ -58,7 +58,7 @@ import { Component, Vue } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
 import { CustomAttributeService } from './services/CustomAttributeService';
-import CustomAttributesStore from './stores/CustomAttributesStore';
+import { CustomAttributesStore } from './stores/CustomAttributesStore';
 import { CustomAttribute } from './models/CustomAttribute';
 import 'src/extensions/date.extensions';
 import CustomAttributeEditPanel from './components/CustomAttributeEditPanel.vue';
@@ -92,12 +92,9 @@ export default class CustomAttributesPage extends Vue {
   readonly = true;
 
   async created(): Promise<void> {
-    const attrs = await this.customAttrService.getAll();
-    if (attrs) {
-      this.customAttributesStore.setAttributes(attrs);
-      const firstAttr = this.customAttributesStore.attributes[0];
-      this.defaultAttr = firstAttr;
-    }
+    await this.customAttributesStore.initialize();
+    const firstAttr = this.customAttributesStore.attributes[0];
+    this.defaultAttr = firstAttr;
   }
 
   /**

@@ -40,7 +40,7 @@ import { AvailableLocales } from 'src/models/Locale';
 import { CustomAttributeService } from '../services/CustomAttributeService';
 import { AttributeType, DisplayType } from '../models/CustomAttribute';
 import CustomAttributePanel from './CustomAttributePanel.vue';
-import CustomAttributesStore from '../stores/CustomAttributesStore';
+import { CustomAttributesStore } from '../stores/CustomAttributesStore';
 import { CustomAttributeValidationService } from '../services/CustomAttributeValidationService';
 import { CreateCustomAttributeDTO } from '../models/CreateCustomAttributeDTO';
 

@@ -12,7 +12,7 @@
     >
       <!-- button at table header -->
       <template v-slot:top>
-        <q-btn color="primary" :label="$t('actions.add')"></q-btn>
+        <q-btn color="primary" :label="$t('actions.add')" @click="searchPrompt = !searchPrompt"/>
         <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
         <q-space />
       </template>
@@ -44,10 +44,18 @@
         </q-card-section>
         <q-separator />
         <q-card-section class="scroll dialog-inner-max">
-          <CustomAttributePanel v-model="viewedCustomAttribute" :readonly="true" />
+          <CustomAttributePanel
+            v-model="viewedCustomAttribute"
+            :readonly="true"
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
+    <AttributeLinksAddDialog
+      v-model="searchPrompt"
+      :excludedAttributes="attrLinksStore.content.attributes"
+      :objectTypeId="attrLinksStore.content.objectTypeId"
+    />
   </div>
 </template>
 
@@ -63,10 +71,12 @@ import { AttributeLinksStore } from '../stores/AttributeLinksStore';
 import CustomAttributePanel from './CustomAttributePanel.vue';
 import { CustomAttribute } from '../models/CustomAttribute';
 import { DisplayTypesStore } from '../stores/DisplayTypesStore';
+import AttributeLinksAddDialog from './AttributeLinksAddDialog.vue';
 
 @Component({
   components: {
     CustomAttributePanel,
+    AttributeLinksAddDialog,
   },
 })
 export default class AttributeLinkPanel extends Vue {
@@ -81,6 +91,8 @@ export default class AttributeLinkPanel extends Vue {
   attrLinkService = AttributeLinkService;
 
   viewPrompt = false;
+
+  searchPrompt = false;
 
   viewedCustomAttribute = {} as CustomAttribute;
 
