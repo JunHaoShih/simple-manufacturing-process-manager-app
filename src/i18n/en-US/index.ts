@@ -62,6 +62,7 @@ export default {
       new: 'New custom attribute',
     },
     attributeLinks: {
+      new: 'New attribute link',
       title: 'Attribute links',
       caption: 'Link your attributes to object types',
     },

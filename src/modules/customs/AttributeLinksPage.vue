@@ -30,7 +30,7 @@
       </template>
 
       <template v-slot:after>
-        <div>TEST</div>
+        <AttributeLinkPanel :objectTypeId="defaultObjectType.id" />
       </template>
 
     </q-splitter>
@@ -43,8 +43,13 @@ import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
 import { ObjectTypeService } from '../objectTypes/ObjectTypeService';
 import { ObjectType } from '../objectTypes/models/ObjectType';
+import AttributeLinkPanel from './components/AttributeLinkPanel.vue';
 
-@Component({})
+@Component({
+  components: {
+    AttributeLinkPanel,
+  },
+})
 export default class AttributeLinksPage extends Vue {
   i18n = useI18n();
 
@@ -75,7 +80,7 @@ export default class AttributeLinksPage extends Vue {
   background: #026E81
 
 .outer-max
-  height: calc(100vh - 160px)
+  height: calc(100vh - 120px)
 
 .avatar-color
   background: #FF9933

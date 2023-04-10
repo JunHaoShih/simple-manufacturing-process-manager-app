@@ -107,7 +107,7 @@ import {
   AttributeTypeOption, CustomAttribute, DisplayTypeOption,
 } from '../models/CustomAttribute';
 import AttributeTypesStore from '../stores/AttributeTypesStore';
-import DisplayTypesStore from '../stores/DisplayTypesStore';
+import { DisplayTypesStore } from '../stores/DisplayTypesStore';
 import CustomOptionsPanel from './CustomOptionsPanel.vue';
 import { CustomAttributeValidationService } from '../services/CustomAttributeValidationService';
 import { CustomOptionValidateService } from '../services/CustomOptionValidateService';

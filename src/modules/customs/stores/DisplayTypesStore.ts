@@ -6,7 +6,7 @@ export interface DisplayTypeOptionContainer {
   types: DisplayTypeOption[],
 }
 
-const DisplayTypesStore = defineStore('displayTypes', {
+export const DisplayTypesStore = defineStore('displayTypes', {
   state: (): DisplayTypeOptionContainer => ({
     types: [],
   }),
@@ -27,5 +27,3 @@ const DisplayTypesStore = defineStore('displayTypes', {
     },
   },
 });
-
-export default DisplayTypesStore;
