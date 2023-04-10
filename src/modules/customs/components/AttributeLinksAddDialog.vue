@@ -158,8 +158,7 @@ export default class AttributeLinksAddDialog extends Vue {
     if (!newLinks) {
       return;
     }
-    this.attrLinksStore.content.attributes
-      .forEach((newLink) => this.attrLinksStore.content.attributes.push(newLink));
+    newLinks.attributes.forEach((newLink) => this.attrLinksStore.content.attributes.push(newLink));
     this.$q.notify({
       message: `${this.i18n.t('actions.inserts.success')}`,
       color: 'secondary',

@@ -6,6 +6,8 @@
       :rows="attrLinksStore.content.attributes"
       :columns="columns"
       :pagination="pagination"
+      v-model:selected="selectedAttributes"
+      selection="multiple"
       row-key="id"
       class="center-max outer-max q-pa-sm"
       style="position: sticky; top: 0"
@@ -13,16 +15,16 @@
       <!-- button at table header -->
       <template v-slot:top>
         <q-btn color="primary" :label="$t('actions.add')" @click="searchPrompt = !searchPrompt"/>
-        <q-btn color="primary" :label="$t('actions.delete')"></q-btn>
+        <q-btn color="primary" :label="$t('actions.delete')" @click="onMultiDelete" />
         <q-space />
       </template>
       <!-- action buttons -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
           <q-btn dense round flat
-            color="grey" icon="delete"></q-btn>
+            color="grey" icon="delete" @click="onSingleDelete(props.row as CustomAttribute)" />
           <q-btn dense round flat
-            color="grey" icon="info" @click="onInfoClicked(props.row as CustomAttribute)"></q-btn>
+            color="grey" icon="info" @click="onInfoClicked(props.row as CustomAttribute)" />
         </q-td>
       </template>
       <!-- display type -->
@@ -96,6 +98,8 @@ export default class AttributeLinkPanel extends Vue {
 
   viewedCustomAttribute = {} as CustomAttribute;
 
+  selectedAttributes = [] as CustomAttribute[];
+
   @Prop
   // eslint-disable-next-line indent
   objectTypeId!: number;
@@ -143,6 +147,56 @@ export default class AttributeLinkPanel extends Vue {
   onInfoClicked(attribute: CustomAttribute): void {
     this.viewedCustomAttribute = attribute;
     this.viewPrompt = true;
+  }
+
+  async onSingleDelete(attribute: CustomAttribute) {
+    this.$q.dialog({
+      title: this.i18n.t('actions.delete'),
+      message: `${this.i18n.t('actions.deletes.confirm')} ${attribute.number} ?`,
+      cancel: this.i18n.t('actions.cancel'),
+      persistent: true,
+    }).onOk(async () => {
+      const code = await this.attrLinkService.deleteMultiple({
+        objectTypeId: this.objectTypeId,
+        attributeIds: [attribute.id],
+      });
+      if (code === 0) {
+        this.attrLinksStore.deleteLinks([attribute]);
+        this.$q.notify({
+          message: this.i18n.t('actions.deletes.success'),
+          color: 'secondary',
+        });
+      }
+    });
+  }
+
+  async onMultiDelete(): Promise<void> {
+    if (this.selectedAttributes.length === 0) {
+      this.$q.notify({
+        message: this.i18n.t('actions.deletes.atLeastOne'),
+        color: 'red',
+      });
+      return;
+    }
+    this.$q.dialog({
+      title: this.i18n.t('actions.delete'),
+      message: `${this.i18n.t('actions.deletes.confirm')} (${this.selectedAttributes.length}) ?`,
+      cancel: this.i18n.t('actions.cancel'),
+      persistent: true,
+    }).onOk(async () => {
+      const code = await this.attrLinkService.deleteMultiple({
+        objectTypeId: this.objectTypeId,
+        attributeIds: this.selectedAttributes.map((attr) => attr.id),
+      });
+      if (code === 0) {
+        this.attrLinksStore.deleteLinks(this.selectedAttributes);
+        // this.selectedAttributes.length = 0;
+        this.$q.notify({
+          message: this.i18n.t('actions.deletes.success'),
+          color: 'secondary',
+        });
+      }
+    });
   }
 }
 </script>
