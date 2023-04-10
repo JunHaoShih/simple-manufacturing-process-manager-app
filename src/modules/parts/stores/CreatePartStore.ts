@@ -17,6 +17,7 @@ const CreatePartStore = defineStore('createPart', {
     sourceId: 1,
     unitId: 1,
     remarks: '',
+    customValues: {},
   }),
   actions: {
     isPartValid(): boolean {

@@ -1,5 +1,6 @@
 import { api } from 'src/boot/axios';
 import { Notify } from 'quasar';
+import { ObjectTypeId } from 'src/modules/objectTypes/models/ObjectType';
 import { SPRMResponse } from 'src/models/SPRMResponse';
 import { AttributeLinks } from '../models/AttributeLinks';
 import { CreateAttributeLinksDTO } from '../models/CreateAttributeLinksDTO';
@@ -10,7 +11,7 @@ import { DeleteAttributeLinksDTO } from '../models/DeleteAttributeLinksDTO';
  * @param objectTypeId object type id
  * @returns AttributeLinks (null if error occured)
  */
-const getByObjectTypeId = async (objectTypeId: number): Promise<AttributeLinks | null> => {
+const getByObjectTypeId = async (objectTypeId: ObjectTypeId): Promise<AttributeLinks | null> => {
   const attributeLinks = await api.get(`api/AttributeLink/ByObjectType?objectTypeId=${objectTypeId}`)
     .then((response): AttributeLinks => {
       const data = response.data as SPRMResponse<AttributeLinks>;

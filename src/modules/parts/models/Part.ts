@@ -2,8 +2,8 @@ import { ReturnBase } from 'src/models/ReturnBase';
 import { SelectOption } from 'src/models/SelectOption';
 
 export enum ViewType {
-  Design = 'Design',
-  Manufacturing = 'Manufacturing',
+  Design = 0,
+  Manufacturing = 1,
 }
 
 export type ViewTypeOption = SelectOption<ViewType>
@@ -25,4 +25,5 @@ export interface Part extends ReturnBase {
   checkout: boolean,
   checkoutId: number | null,
   version: PartVersion,
+  customValues: Record<string, string>,
 }

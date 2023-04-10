@@ -8,7 +8,7 @@ export interface UnitsContainer {
   units: Unit[],
 }
 
-const UnitsStore = defineStore('units', {
+export const UnitsStore = defineStore('units', {
   state: (): UnitsContainer => ({
     units: [],
   }),
@@ -19,6 +19,7 @@ const UnitsStore = defineStore('units', {
       const arr = state.units.map((source): UnitOption => ({
         label: source.name,
         value: source.id,
+        attributeNumber: '',
       }));
       return arr;
     },
@@ -53,5 +54,3 @@ const UnitsStore = defineStore('units', {
     },
   },
 });
-
-export default UnitsStore;

@@ -10,4 +10,5 @@ export interface CreatePartDTO {
   viewSubtypeId: number,
   sourceId: number,
   unitId: number,
+  customValues: Record<string, string>,
 }

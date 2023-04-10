@@ -6,6 +6,7 @@
       icon="article"
       :label="$t('info')"
       header-class="text-h6 bg-primary text-white"
+      expand-icon-class="text-white"
       class="expandable shadow-1 overflow-hidden"
       style="border-radius: 10px"
     >
@@ -76,6 +77,7 @@
       icon="language"
       :label="$t('language')"
       header-class="text-h6 bg-primary text-white"
+      expand-icon-class="text-white"
       class="expandable shadow-1 overflow-hidden"
       style="border-radius: 10px"
     >

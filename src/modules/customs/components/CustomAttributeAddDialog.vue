@@ -114,7 +114,7 @@ export default class CustomAttributeAddDialog extends Vue {
 
     this.customAttributesStore.addAttribute(newAttr);
     this.$q.notify({
-      message: `${newAttr} ${this.i18n.t('actions.inserts.success')}`,
+      message: `${newAttr.number} ${this.i18n.t('actions.inserts.success')}`,
       color: 'secondary',
     });
     this.dialogRef.hide();

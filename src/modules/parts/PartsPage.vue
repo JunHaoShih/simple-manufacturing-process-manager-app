@@ -110,6 +110,8 @@ import { Part, PartVersion } from './models/Part';
 import PartDialog from './components/PartDialog.vue';
 import PartsStore from './stores/PartsStore';
 import 'src/extensions/date.extensions';
+import { AttributeLinksStore } from '../customs/stores/AttributeLinksStore';
+import { ObjectTypeId } from '../objectTypes/models/ObjectType';
 
 @Component({
   components: {
@@ -122,6 +124,8 @@ export default class PartsPage extends Vue {
   pattern = '';
 
   selected = [] as Part[];
+
+  attrLinksStore = AttributeLinksStore();
 
   partsStore = PartsStore();
 
@@ -173,7 +177,10 @@ export default class PartsPage extends Vue {
 
   async created() {
     this.pattern = this.$route.query.pattern as string;
-    await this.searchParts();
+    await Promise.all([
+      this.attrLinksStore.initialize(ObjectTypeId.PartVersion),
+      this.searchParts(),
+    ]);
   }
 
   onInfoClicked(part: Part): void {

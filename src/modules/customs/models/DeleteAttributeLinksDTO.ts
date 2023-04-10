@@ -1,4 +1,6 @@
+import { ObjectTypeId } from 'src/modules/objectTypes/models/ObjectType';
+
 export interface DeleteAttributeLinksDTO {
-  objectTypeId: number,
+  objectTypeId: ObjectTypeId,
   attributeIds: number[],
 }

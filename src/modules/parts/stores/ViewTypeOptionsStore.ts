@@ -7,8 +7,8 @@ const ViewTypeOptionsStore = defineStore('viewTypeOptions', {
   getters: {
     i18nOptions(state): ViewTypeOption[] {
       state = [
-        { label: useI18n().t('parts.views.design'), value: ViewType.Design },
-        { label: useI18n().t('parts.views.manufacturing'), value: ViewType.Manufacturing },
+        { label: useI18n().t('parts.views.design'), value: ViewType.Design, attributeNumber: '' },
+        { label: useI18n().t('parts.views.manufacturing'), value: ViewType.Manufacturing, attributeNumber: '' },
       ];
       return state;
     },

@@ -8,7 +8,7 @@ export interface SourcesContainer {
   sources: Source[],
 }
 
-const SourcesStore = defineStore('sources', {
+export const SourcesStore = defineStore('sources', {
   state: (): SourcesContainer => ({
     sources: [],
   }),
@@ -19,6 +19,7 @@ const SourcesStore = defineStore('sources', {
       const arr = state.sources.map((source): SourceOption => ({
         label: source.name,
         value: source.id,
+        attributeNumber: '',
       }));
       return arr;
     },
@@ -53,5 +54,3 @@ const SourcesStore = defineStore('sources', {
     },
   },
 });
-
-export default SourcesStore;

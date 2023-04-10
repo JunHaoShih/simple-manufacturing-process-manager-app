@@ -68,6 +68,7 @@ import {
 import { QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
+import { ObjectTypeId } from 'src/modules/objectTypes/models/ObjectType';
 import { AttributeLinkService } from '../services/AttributeLinkService';
 import { AttributeLinksStore } from '../stores/AttributeLinksStore';
 import CustomAttributePanel from './CustomAttributePanel.vue';
@@ -102,7 +103,7 @@ export default class AttributeLinkPanel extends Vue {
 
   @Prop
   // eslint-disable-next-line indent
-  objectTypeId!: number;
+  objectTypeId!: ObjectTypeId;
 
   get columns(): QTableProps['columns'] {
     return [
@@ -137,10 +138,7 @@ export default class AttributeLinkPanel extends Vue {
     this.$q.loading.show({
       delay: 400,
     });
-    const attrLinks = await this.attrLinkService.getByObjectTypeId(this.objectTypeId);
-    if (attrLinks) {
-      this.attrLinksStore.content = attrLinks;
-    }
+    await this.attrLinksStore.initialize(this.objectTypeId);
     this.$q.loading.hide();
   }
 
@@ -190,7 +188,7 @@ export default class AttributeLinkPanel extends Vue {
       });
       if (code === 0) {
         this.attrLinksStore.deleteLinks(this.selectedAttributes);
-        // this.selectedAttributes.length = 0;
+        this.selectedAttributes.length = 0;
         this.$q.notify({
           message: this.i18n.t('actions.deletes.success'),
           color: 'secondary',
