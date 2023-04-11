@@ -20,7 +20,7 @@
         <div class="q-pa-md">
           <q-list bordered padding class="rounded-borders text-black">
             <q-item
-              v-for="attr in customAttributesStore.filteredAttributes(pattern)"
+              v-for="attr in attributes"
               :key="attr.id"
               clickable
               v-ripple
@@ -42,7 +42,7 @@
 
       <template v-slot:after>
         <CustomAttributeEditPanel
-          v-if="defaultAttr && Object.entries(defaultAttr).length > 0"
+          v-if="defaultAttr && Object.entries(defaultAttr).length > 0 && defaultAttr.id > 0"
           v-model="defaultAttr"
           class="q-pa-md">
         </CustomAttributeEditPanel>
@@ -54,12 +54,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-facing-decorator';
+import { Component, Vue, Watch } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
 import { CustomAttributeService } from './services/CustomAttributeService';
 import { CustomAttributesStore } from './stores/CustomAttributesStore';
-import { CustomAttribute } from './models/CustomAttribute';
+import { AttributeType, CustomAttribute, DisplayType } from './models/CustomAttribute';
 import 'src/extensions/date.extensions';
 import CustomAttributeEditPanel from './components/CustomAttributeEditPanel.vue';
 import CustomAttributeAddDialog from './components/CustomAttributeAddDialog.vue';
@@ -92,9 +92,39 @@ export default class CustomAttributesPage extends Vue {
   readonly = true;
 
   async created(): Promise<void> {
+    this.defaultAttr = {
+      id: -1,
+      attributeType: AttributeType.String,
+      displayType: DisplayType.Value,
+      isDisabled: false,
+      options: [],
+      number: '',
+      name: '',
+      isSystemDefault: false,
+      languages: {} as Record<string, string>,
+      createUser: '',
+      createDate: new Date(),
+      updateUser: '',
+      updateDate: new Date(),
+      remarks: '',
+    };
     await this.customAttributesStore.initialize();
-    const firstAttr = this.customAttributesStore.attributes[0];
-    this.defaultAttr = firstAttr;
+    const firstAttr = this.attributes[0];
+    if (firstAttr) {
+      this.defaultAttr = firstAttr;
+    }
+  }
+
+  get attributes(): CustomAttribute[] {
+    return this.customAttributesStore.filteredAttributes(this.pattern);
+  }
+
+  @Watch('attributes.length')
+  onAttributesLengthChange(newValue: number, oldValue: number) {
+    const firstAttr = this.attributes[0];
+    if (firstAttr) {
+      this.defaultAttr = firstAttr;
+    }
   }
 
   /**
@@ -102,11 +132,6 @@ export default class CustomAttributesPage extends Vue {
    */
   onSearch(): void {
     this.pattern = this.patternInput;
-    const attrs = this.customAttributesStore.filteredAttributes(this.pattern);
-    if (attrs) {
-      const firstAttr = attrs[0];
-      this.defaultAttr = firstAttr;
-    }
   }
 
   onAddClicked(): void {
@@ -134,11 +159,6 @@ export default class CustomAttributesPage extends Vue {
           color: 'secondary',
         });
         this.customAttributesStore.removeAttribute(this.defaultAttr.id);
-        const attrs = this.customAttributesStore.filteredAttributes(this.pattern);
-        if (attrs) {
-          const firstAttr = attrs[0];
-          this.defaultAttr = firstAttr;
-        }
       }
     });
   }
