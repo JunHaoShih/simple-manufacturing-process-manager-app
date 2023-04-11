@@ -46,12 +46,12 @@
       <!-- version -->
       <template v-slot:body-cell-version="props">
         <q-td :props="props">
-          {{ partsStore.getVersion(props.row.version as PartVersion) }}
+          {{ partsStore.getVersion(props.row.version) }}
         </q-td>
       </template>
       <!-- view -->
       <template v-slot:body-cell-view="props">
-        <q-td v-if="props.row.viewType === 0" :props="props">
+        <q-td v-if="props.row.viewType === Design" :props="props">
           {{ $t('parts.views.design') }}
         </q-td>
         <q-td v-else :props="props">
@@ -105,8 +105,8 @@
 import { Component, Vue, Watch } from 'vue-facing-decorator';
 import { QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
-import PartService from './PartService';
-import { Part, PartVersion } from './models/Part';
+import PartService from './services/PartService';
+import { Part, ViewType } from './models/Part';
 import PartDialog from './components/PartDialog.vue';
 import PartsStore from './stores/PartsStore';
 import 'src/extensions/date.extensions';
@@ -132,6 +132,8 @@ export default class PartsPage extends Vue {
   $q = useQuasar();
 
   prompt = false;
+
+  readonly Design = ViewType.Design;
 
   get columns(): QTableProps['columns'] {
     return [
@@ -184,14 +186,15 @@ export default class PartsPage extends Vue {
   }
 
   onInfoClicked(part: Part): void {
-    if (this.partsStore.isInitialized(part)) {
-      alert('TODO redirect to part info page');
+    /* if (this.partsStore.isInitialized(part)) {
+      this.$router.push(`parts/${part.version.id}/info`);
     } else {
       this.$q.notify({
         message: `${part.number} is not initialized yet!`,
         color: 'red',
       });
-    }
+    } */
+    this.$router.push(`parts/${part.version.id}/info`);
   }
 
   onSearchEnter(): void {

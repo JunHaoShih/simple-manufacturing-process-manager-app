@@ -42,6 +42,7 @@ export default {
       design: 'Design',
       manufacturing: 'Manufacturing',
     },
+    info: 'Information',
     new: 'New part',
   },
   customs: {

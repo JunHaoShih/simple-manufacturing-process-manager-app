@@ -42,6 +42,7 @@ export default {
       design: '設計',
       manufacturing: '製造',
     },
+    info: '資訊',
     new: '新增料件',
   },
   customs: {

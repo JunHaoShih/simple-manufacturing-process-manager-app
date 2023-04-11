@@ -8,7 +8,7 @@ export enum ViewType {
 
 export type ViewTypeOption = SelectOption<ViewType>
 
-export interface PartVersion extends ReturnBase {
+export interface PartVersionInfo extends ReturnBase {
   masterId: number,
   iteration: number,
   revision: number,
@@ -24,6 +24,6 @@ export interface Part extends ReturnBase {
   viewSubtypeId: number,
   checkout: boolean,
   checkoutId: number | null,
-  version: PartVersion,
+  version: PartVersionInfo,
   customValues: Record<string, string>,
 }

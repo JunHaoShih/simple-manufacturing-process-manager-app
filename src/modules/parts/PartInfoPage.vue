@@ -1,14 +1,6 @@
 <template>
-  <q-dialog ref="dialogRef" v-model="prompt" persistent
-    transition-show="rotate" transition-hide="rotate"
-  >
+  <div class="q-pa-sm main-panel">
     <q-card style="min-width: 700px">
-      <q-card-section class="bg-primary text-white row items-center">
-        <div class="text-h6">{{ $t('parts.new') }}</div>
-        <q-space></q-space>
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
       <q-card-section class="scroll dialog-inner-max">
         <div>
           <q-expansion-item
@@ -22,24 +14,22 @@
           >
           <div class="q-pa-sm">
             <div class="q-ma-sm">{{ $t('parts.number') }}</div>
-            <ValidationInput v-model="createPartStore.number"
-              :inputValidator="partValidationService.checkNumberRules"
-            />
+            <div class="q-ma-sm">{{ partVersionStore.content.master.number }}</div>
             <div class="q-ma-sm">{{ $t('parts.name') }}</div>
-            <ValidationInput v-model="createPartStore.name"
-              :inputValidator="partValidationService.checkNameRules"
-            />
+            <div class="q-ma-sm">{{ partVersionStore.content.master.name }}</div>
             <div class="row">
               <q-checkbox
                 left-label
-                v-model="createPartStore.isEndItem"
+                v-model="partVersionStore.content.master.isEndItem"
                 :label="$t('parts.endItem')"
+                :disable="readonly"
               />
               <q-checkbox
                 left-label
-                v-model="createPartStore.isPhantom"
+                v-model="partVersionStore.content.master.isPhantom"
                 :label="$t('parts.phantom')"
                 class="q-ml-md"
+                :disable="readonly"
               />
             </div>
             <div>
@@ -49,7 +39,8 @@
                 dense
                 v-model="viewTypeOption"
                 :options="viewTypeOptionsStore.i18nOptions"
-                @update:modelValue="onViewTypeUpdated" />
+                :readonly="readonly"
+              />
             </div>
             <div>
               <div class="q-ma-sm">{{ $t('source') }}</div>
@@ -58,7 +49,8 @@
                 dense
                 v-model="sourceOption"
                 :options="sourcesStore.options"
-                @update:modelValue="onSourceTypeUpdated" />
+                :readonly="readonly"
+              />
             </div>
             <div>
               <div class="q-ma-sm">{{ $t('unit') }}</div>
@@ -67,14 +59,16 @@
                 dense
                 v-model="unitOption"
                 :options="unitsStore.options"
-                @update:modelValue="onUnitTypeUpdated" />
+                :readonly="readonly"
+              />
             </div>
             <div class="column">
               <div class="q-ma-sm">{{ $t('remarks') }}</div>
               <q-input
-                v-model="createPartStore.remarks"
+                v-model="partVersionStore.content.remarks"
                 label="remarks" filled
                 type="textarea"
+                :readonly="readonly"
               />
             </div>
           </div>
@@ -103,75 +97,70 @@
                   v-if="attribute.displayType === SingleSelect"
                   filled
                   dense
+                  :readonly="readonly"
                   v-model="middleCustomOptions[attribute.id]"
                   :options="getSelectOption(attribute.options, attribute.number)"
                   @update:modelValue="onSelectOptionUpdated" />
                 <ValidationInput
                   v-else
-                  v-model="createPartStore.customValues[attribute.number]"
+                  v-model="partVersionStore.content.customValues[attribute.number]"
+                  :readonly="readonly"
                 />
               </div>
             </div>
           </q-expansion-item>
         </div>
       </q-card-section>
-      <q-separator />
-      <q-card-actions align="right" class="text-primary">
-        <q-btn flat :label="$t('actions.cancel')" v-close-popup></q-btn>
-        <q-btn flat :label="$t('actions.confirm')" @click="onDialogConfirm"></q-btn>
-      </q-card-actions>
     </q-card>
-  </q-dialog>
+  </div>
 </template>
 
 <script lang="ts">
-import {
-  Component, Emit, Model, Ref, Vue,
-} from 'vue-facing-decorator';
-import { QDialog, useQuasar } from 'quasar';
+import { Component, Prop, Vue } from 'vue-facing-decorator';
+import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
-import { SelectOption } from 'src/models/SelectOption';
-import { AttributeLinksStore } from 'src/modules/customs/stores/AttributeLinksStore';
-import { SourceOption } from 'src/modules/sources/models/Source';
+import 'src/extensions/date.extensions';
 import ValidationInput from 'src/components/ValidationInput.vue';
-import { SourcesStore } from 'src/modules/sources/stores/SourcesStore';
-import { UnitsStore } from 'src/modules/units/stores/UnitsStore';
-import { UnitOption } from 'src/modules/units/models/Unit';
-import { CustomOption, DisplayType } from 'src/modules/customs/models/CustomAttribute';
-import PartValidationService from '../services/PartValidateService';
-import { CreatePartStore } from '../stores/CreatePartStore';
-import ViewTypeOptionsStore from '../stores/ViewTypeOptionsStore';
-import { Part, ViewTypeOption } from '../models/Part';
-
-export type CustomSelectOption = SelectOption<CustomOption>;
+import { SelectOption } from 'src/models/SelectOption';
+import { AttributeLinksStore } from '../customs/stores/AttributeLinksStore';
+import ViewTypeOptionsStore from './stores/ViewTypeOptionsStore';
+import { ViewTypeOption } from './models/Part';
+import { SourcesStore } from '../sources/stores/SourcesStore';
+import { UnitsStore } from '../units/stores/UnitsStore';
+import { SourceOption } from '../sources/models/Source';
+import { UnitOption } from '../units/models/Unit';
+import { CustomOption, DisplayType } from '../customs/models/CustomAttribute';
+import { PartVersionStore } from './stores/PartVersionStore';
 
 @Component({
   components: {
     ValidationInput,
   },
 })
-export default class PartDialog extends Vue {
+export default class PartInfoPage extends Vue {
+  @Prop
+  // eslint-disable-next-line indent
+  id = '';
+
   i18n = useI18n();
+
+  $q = useQuasar();
+
+  attrLinksStore = AttributeLinksStore();
+
+  viewTypeOptionsStore = ViewTypeOptionsStore();
 
   sourcesStore = SourcesStore();
 
   unitsStore = UnitsStore();
 
-  createPartStore = CreatePartStore();
+  partVersionStore = PartVersionStore();
 
-  attrLinksStore = AttributeLinksStore();
+  infoExpanded = false;
 
-  $q = useQuasar();
+  customValuesExpanded = false;
 
-  @Model
-  // eslint-disable-next-line indent
-  prompt!: boolean;
-
-  errorMessage = '';
-
-  partValidationService = PartValidationService;
-
-  viewTypeOptionsStore = ViewTypeOptionsStore();
+  readonly = true;
 
   viewTypeOption = {} as ViewTypeOption;
 
@@ -179,31 +168,9 @@ export default class PartDialog extends Vue {
 
   unitOption = {} as UnitOption;
 
-  createdPart = {} as Part;
-
-  infoExpanded = true;
-
-  customValuesExpanded = true;
-
-  middleCustomOptions: Record<number, string> = {};
-
   readonly SingleSelect = DisplayType.SingleSelect;
 
-  @Ref
-  // eslint-disable-next-line indent
-  dialogRef!: QDialog;
-
-  onViewTypeUpdated(value: ViewTypeOption) {
-    this.createPartStore.viewType = value.value;
-  }
-
-  onSourceTypeUpdated(value: SourceOption) {
-    this.createPartStore.sourceId = value.value;
-  }
-
-  onUnitTypeUpdated(value: UnitOption) {
-    this.createPartStore.unitId = value.value;
-  }
+  middleCustomOptions: Record<number, string> = {};
 
   async created() {
     const option = this.viewTypeOptionsStore.i18nOptions[0];
@@ -215,7 +182,6 @@ export default class PartDialog extends Vue {
     await this.unitsStore.init();
     const uo = this.unitsStore.options[0];
     this.unitOption = uo;
-    this.createPartStore.customValues = Object.fromEntries(this.attrLinksStore.content.attributes.map((attr) => [attr.number, '']));
     for (let i = 0; i < this.attrLinksStore.content.attributes.length; i += 1) {
       const attr = this.attrLinksStore.content.attributes[i];
       if (attr.displayType === DisplayType.SingleSelect) {
@@ -223,28 +189,6 @@ export default class PartDialog extends Vue {
         this.middleCustomOptions[attr.id] = firstOption.key;
       }
     }
-  }
-
-  async onDialogConfirm(): Promise<void> {
-    if (!this.createPartStore.isPartValid()) {
-      return;
-    }
-    const newPart = await this.createPartStore.create();
-    if (!newPart) {
-      return;
-    }
-    this.createdPart = newPart;
-    this.emitCreateResult();
-    this.$q.notify({
-      message: `${this.createdPart.number} ${this.i18n.t('actions.inserts.success')}`,
-      color: 'secondary',
-    });
-    this.dialogRef.hide();
-  }
-
-  @Emit('onPartCreated')
-  emitCreateResult(): Part {
-    return this.createdPart;
   }
 
   getSelectOption(customOptions: CustomOption[], attributeNumber: string) {
@@ -257,13 +201,13 @@ export default class PartDialog extends Vue {
 
   onSelectOptionUpdated(selectOption: SelectOption<string>) {
     console.log(selectOption.value);
-    this.createPartStore.customValues[selectOption.attributeNumber] = selectOption.value;
-    console.log(this.createPartStore.customValues);
+    this.partVersionStore.content.customValues[selectOption.attributeNumber] = selectOption.value;
+    console.log(this.partVersionStore.content.customValues);
   }
 }
 </script>
 
 <style lang="sass" scoped>
-.dialog-inner-max
-  height: calc(90vh - 120px)
+.outer-max
+  height: calc(100vh - 70px)
 </style>

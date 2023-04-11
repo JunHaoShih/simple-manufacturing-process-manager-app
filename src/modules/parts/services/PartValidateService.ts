@@ -1,6 +1,6 @@
 import { ValidateRule } from 'src/models/ValidateRule';
-import { Part } from './models/Part';
-import { CreatePartDTO } from './dtos/CreatePartDTO';
+import { Part } from '../models/Part';
+import { CreatePartDTO } from '../dtos/CreatePartDTO';
 
 export const validateNumberRules: ValidateRule[] = [
   {

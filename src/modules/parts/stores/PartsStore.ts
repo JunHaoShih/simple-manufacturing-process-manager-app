@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Part, PartVersion } from '../models/Part';
+import { Part, PartVersionInfo } from '../models/Part';
 
 export interface PartsContainer {
   parts: Part[],
@@ -10,7 +10,7 @@ const PartsStore = defineStore('parts', {
     parts: [],
   }),
   getters: {
-    getVersion: (state) => (partVersion: PartVersion): string => {
+    getVersion: (state) => (partVersion: PartVersionInfo): string => {
       const versionStr = `${partVersion.iteration}.${partVersion.revision}`;
       return versionStr;
     },
