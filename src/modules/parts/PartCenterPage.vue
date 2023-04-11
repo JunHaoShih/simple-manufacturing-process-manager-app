@@ -15,6 +15,13 @@
         <div v-else>
           [{{ $t('parts.views.manufacturing') }}]
         </div>
+        <div class="q-ml-sm">
+          <q-icon v-if="part.checkout" name="warning" color="orange" size="8px">
+            <q-tooltip>
+              {{ $t('iterable.checkout') }}
+            </q-tooltip>
+          </q-icon>
+        </div>
       </div>
     </q-banner>
     <q-tabs
@@ -38,7 +45,8 @@ import { PartVersionStore } from './stores/PartVersionStore';
 import { PartVersionService } from './services/PartVersionService';
 import { AttributeLinksStore } from '../customs/stores/AttributeLinksStore';
 import { ObjectTypeId } from '../objectTypes/models/ObjectType';
-import { ViewType } from './models/Part';
+import { Part, ViewType } from './models/Part';
+import PartService from './services/PartService';
 
 @Component({})
 export default class PartCenterPage extends Vue {
@@ -52,12 +60,20 @@ export default class PartCenterPage extends Vue {
 
   partVersionService = PartVersionService;
 
+  partService = PartService;
+
+  part = {} as Part;
+
   async created() {
     this.partVersionStore.content.customValues = Object.fromEntries(this.attrLinksStore.content.attributes.map((attr) => [attr.number, '']));
     this.attrLinksStore.initialize(ObjectTypeId.PartVersion);
     const targetVersion = await this.partVersionService.getById(Number(this.id));
     if (targetVersion) {
       this.partVersionStore.content = targetVersion;
+      const part = await this.partService.getById(Number(targetVersion.master.id));
+      if (part) {
+        this.part = part;
+      }
     }
   }
 }

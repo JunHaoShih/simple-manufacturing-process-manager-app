@@ -2,6 +2,7 @@ import { ReturnBase } from 'src/models/ReturnBase';
 import { ViewType } from './Part';
 
 export interface PartMaster {
+  id: number,
   number: string,
   name: string,
   isEndItem: boolean,

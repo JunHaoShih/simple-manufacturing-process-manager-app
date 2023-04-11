@@ -14,9 +14,15 @@
           >
           <div class="q-pa-sm">
             <div class="q-ma-sm">{{ $t('parts.number') }}</div>
-            <div class="q-ma-sm">{{ partVersionStore.content.master.number }}</div>
+            <ValidationInput v-model="partVersionStore.content.master.number"
+              :inputValidator="partValidationService.checkNumberRules"
+              :readonly="true"
+            />
             <div class="q-ma-sm">{{ $t('parts.name') }}</div>
-            <div class="q-ma-sm">{{ partVersionStore.content.master.name }}</div>
+            <ValidationInput v-model="partVersionStore.content.master.name"
+              :inputValidator="partValidationService.checkNameRules"
+              :readonly="true"
+            />
             <div class="row">
               <q-checkbox
                 left-label
@@ -131,6 +137,7 @@ import { SourceOption } from '../sources/models/Source';
 import { UnitOption } from '../units/models/Unit';
 import { CustomOption, DisplayType } from '../customs/models/CustomAttribute';
 import { PartVersionStore } from './stores/PartVersionStore';
+import PartValidationService from './services/PartValidateService';
 
 @Component({
   components: {
@@ -153,6 +160,8 @@ export default class PartInfoPage extends Vue {
   unitsStore = UnitsStore();
 
   partVersionStore = PartVersionStore();
+
+  partValidationService = PartValidationService;
 
   infoExpanded = true;
 
