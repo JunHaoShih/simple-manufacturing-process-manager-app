@@ -1,7 +1,7 @@
 import { api } from 'src/boot/axios';
 import { Notify } from 'quasar';
 import { SPRMResponse } from 'src/models/SPRMResponse';
-import { Part } from './models/Part';
+import { Part } from '../models/Part';
 
 const getByPattern = async (pattern: string):
 Promise<Part[] | null> => {
