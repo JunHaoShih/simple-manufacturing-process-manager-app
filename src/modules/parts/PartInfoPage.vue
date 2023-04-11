@@ -174,7 +174,6 @@ export default class PartInfoPage extends Vue {
     const option = this.viewTypeOptionsStore.i18nOptions[0];
     this.viewTypeOption = option;
     await this.sourcesStore.init();
-    // eslint-disable-next-line prefer-destructuring
     const so = this.sourcesStore.options[0];
     this.sourceOption = so;
     await this.unitsStore.init();
