@@ -81,21 +81,15 @@ export default class AttributeLinksAddDialog extends Vue {
 
   attrLinkService = AttributeLinkService;
 
-  @Model
-  // eslint-disable-next-line indent
-  prompt = false;
+  @Model prompt = false;
 
   @Prop({
     required: true,
-  })
-  // eslint-disable-next-line indent
-  excludedAttributes = [] as CustomAttribute[];
+  }) excludedAttributes = [] as CustomAttribute[];
 
   @Prop({
     required: true,
-  })
-  // eslint-disable-next-line indent
-  objectTypeId = 0;
+  }) objectTypeId = 0;
 
   @Ref
   // eslint-disable-next-line indent

@@ -136,13 +136,9 @@ export default class CustomAttributePanel extends Vue {
 
   langValidateService = LanguageValidateService;
 
-  @Model
-  // eslint-disable-next-line indent
-  inputAttr!: CustomAttribute;
+  @Model inputAttr!: CustomAttribute;
 
-  @Prop
-  // eslint-disable-next-line indent
-  readonly = true;
+  @Prop readonly = true;
 
   infoExpanded = true;
 

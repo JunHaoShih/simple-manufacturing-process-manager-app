@@ -62,13 +62,9 @@ export default class CustomAttributeAddDialog extends Vue {
 
   availableLocales = AvailableLocales;
 
-  @Model
-  // eslint-disable-next-line indent
-  prompt!: boolean;
+  @Model prompt!: boolean;
 
-  @Ref
-  // eslint-disable-next-line indent
-  dialogRef!: QDialog;
+  @Ref dialogRef!: QDialog;
 
   defaultAttr = {} as CreateCustomAttributeDTO;
 

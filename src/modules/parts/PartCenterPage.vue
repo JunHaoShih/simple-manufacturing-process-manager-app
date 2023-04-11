@@ -42,9 +42,7 @@ import { ViewType } from './models/Part';
 
 @Component({})
 export default class PartCenterPage extends Vue {
-  @Prop
-  // eslint-disable-next-line indent
-  id = '';
+  @Prop id = '';
 
   readonly Design = ViewType.Design;
 

@@ -113,19 +113,13 @@ export default class CustomOptionsPanel extends Vue {
    */
   prompt = false;
 
-  @Model
-  // eslint-disable-next-line indent
-  inputOptions!: CustomOption[];
+  @Model inputOptions!: CustomOption[];
 
   @Prop({
     required: true,
-  })
-  // eslint-disable-next-line indent
-  readonly = true;
+  }) readonly = true;
 
-  @Ref
-  // eslint-disable-next-line indent
-  dialogRef!: QDialog;
+  @Ref dialogRef!: QDialog;
 
   dialogMode = DialogType.None;
 

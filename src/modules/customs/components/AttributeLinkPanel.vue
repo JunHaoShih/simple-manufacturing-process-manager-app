@@ -101,9 +101,7 @@ export default class AttributeLinkPanel extends Vue {
 
   selectedAttributes = [] as CustomAttribute[];
 
-  @Prop
-  // eslint-disable-next-line indent
-  objectTypeId!: ObjectTypeId;
+  @Prop objectTypeId!: ObjectTypeId;
 
   get columns(): QTableProps['columns'] {
     return [

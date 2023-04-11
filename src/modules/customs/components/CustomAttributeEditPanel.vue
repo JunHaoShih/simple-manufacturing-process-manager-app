@@ -61,9 +61,7 @@ export default class CustomAttributeEditPanel extends Vue {
 
   customAttrValidationRuleService = CustomAttributeValidationService;
 
-  @Model
-  // eslint-disable-next-line indent
-  inputAttr!: CustomAttribute;
+  @Model inputAttr!: CustomAttribute;
 
   defaultAttr = {} as CustomAttribute;
 

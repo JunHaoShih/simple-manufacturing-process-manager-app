@@ -186,14 +186,6 @@ export default class PartsPage extends Vue {
   }
 
   onInfoClicked(part: Part): void {
-    /* if (this.partsStore.isInitialized(part)) {
-      this.$router.push(`parts/${part.version.id}/info`);
-    } else {
-      this.$q.notify({
-        message: `${part.number} is not initialized yet!`,
-        color: 'red',
-      });
-    } */
     this.$router.push(`parts/${part.version.id}/info`);
   }
 

@@ -163,9 +163,7 @@ export default class PartDialog extends Vue {
 
   $q = useQuasar();
 
-  @Model
-  // eslint-disable-next-line indent
-  prompt!: boolean;
+  @Model prompt!: boolean;
 
   errorMessage = '';
 
@@ -189,9 +187,7 @@ export default class PartDialog extends Vue {
 
   readonly SingleSelect = DisplayType.SingleSelect;
 
-  @Ref
-  // eslint-disable-next-line indent
-  dialogRef!: QDialog;
+  @Ref dialogRef!: QDialog;
 
   onViewTypeUpdated(value: ViewTypeOption) {
     this.createPartStore.viewType = value.value;

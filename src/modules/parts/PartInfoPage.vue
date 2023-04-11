@@ -138,9 +138,7 @@ import { PartVersionStore } from './stores/PartVersionStore';
   },
 })
 export default class PartInfoPage extends Vue {
-  @Prop
-  // eslint-disable-next-line indent
-  id = '';
+  @Prop id = '';
 
   i18n = useI18n();
 
@@ -156,9 +154,9 @@ export default class PartInfoPage extends Vue {
 
   partVersionStore = PartVersionStore();
 
-  infoExpanded = false;
+  infoExpanded = true;
 
-  customValuesExpanded = false;
+  customValuesExpanded = true;
 
   readonly = true;
 
