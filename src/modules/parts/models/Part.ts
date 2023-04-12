@@ -13,6 +13,8 @@ export interface PartVersionInfo extends ReturnBase {
   iteration: number,
   revision: number,
   checkout: boolean,
+  sourceId: number,
+  unitId: number,
 }
 
 export interface Part extends ReturnBase {

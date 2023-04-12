@@ -5,11 +5,11 @@
       style="border-radius: 10px"
     >
       <div class="text-h6 row">
-        <div>{{ partVersion.master.number }}</div>
+        <div>{{ partVersionStore.content.master.number }}</div>
         <div>
-          [{{ partVersion.iteration }}.{{ partVersion.revision }}]
+          [{{ partVersionStore.content.iteration }}.{{ partVersionStore.content.revision }}]
         </div>
-        <div v-if="partVersion.master.viewType === Design">
+        <div v-if="partVersionStore.content.master.viewType === Design">
           [{{ $t('parts.views.design') }}]
         </div>
         <div v-else>
@@ -31,7 +31,7 @@
     >
       <q-route-tab
         :label="$t('parts.info')"
-        :to="'/parts/' + id + '/info'"
+        :to="'/parts/version/' + id + '/info'"
         exact
       />
     </q-tabs>
@@ -41,20 +41,22 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-facing-decorator';
+import { PartVersionStore } from './stores/PartVersionStore';
 import { PartVersionService } from './services/PartVersionService';
 import { AttributeLinksStore } from '../customs/stores/AttributeLinksStore';
 import { ObjectTypeId } from '../objectTypes/models/ObjectType';
 import { Part, ViewType } from './models/Part';
 import PartService from './services/PartService';
-import { PartMaster, PartVersion } from './models/PartVersion';
 
 @Component({})
-export default class PartCenterPage extends Vue {
+export default class PartVersionCenterPage extends Vue {
   @Prop id = '';
 
   readonly Design = ViewType.Design;
 
   attrLinksStore = AttributeLinksStore();
+
+  partVersionStore = PartVersionStore();
 
   partVersionService = PartVersionService;
 
@@ -62,33 +64,15 @@ export default class PartCenterPage extends Vue {
 
   part = {} as Part;
 
-  partVersion: PartVersion = {
-    id: 0,
-    iteration: 0,
-    revision: 0,
-    sourceId: 0,
-    unitId: 0,
-    checkout: false,
-    master: {} as PartMaster,
-    customValues: {} as Record<string, string>,
-    createUser: '',
-    createDate: new Date(),
-    updateUser: '',
-    updateDate: new Date(),
-    remarks: '',
-  };
-
   async created() {
+    this.partVersionStore.content.customValues = Object.fromEntries(this.attrLinksStore.content.attributes.map((attr) => [attr.number, '']));
     this.attrLinksStore.initialize(ObjectTypeId.PartVersion);
-    const part = await this.partService.getById(Number(this.id));
-    if (part) {
-      this.part = part;
-      if (!part.checkoutId) {
-        this.$router.push('/parts');
-      }
-      const targetVersion = await this.partVersionService.getById(Number(part.checkoutId));
-      if (targetVersion) {
-        this.partVersion = targetVersion;
+    const targetVersion = await this.partVersionService.getById(Number(this.id));
+    if (targetVersion) {
+      this.partVersionStore.content = targetVersion;
+      const part = await this.partService.getById(Number(targetVersion.master.id));
+      if (part) {
+        this.part = part;
       }
     }
   }

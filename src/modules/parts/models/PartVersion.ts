@@ -15,6 +15,8 @@ export interface PartVersion extends ReturnBase {
   iteration: number,
   revision: number,
   checkout: boolean,
+  sourceId: number,
+  unitId: number,
   master: PartMaster,
   customValues: Record<string, string>,
 }

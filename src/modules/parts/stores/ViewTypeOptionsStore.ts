@@ -2,17 +2,24 @@ import { defineStore } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { ViewType, ViewTypeOption } from '../models/Part';
 
-const ViewTypeOptionsStore = defineStore('viewTypeOptions', {
-  state: (): ViewTypeOption[] => [] as ViewTypeOption[],
+export interface ViewTypeOptionContainer {
+  viewTypes: ViewTypeOption[],
+}
+
+export const ViewTypeOptionsStore = defineStore('viewTypeOptions', {
+  state: (): ViewTypeOptionContainer => ({
+    viewTypes: [
+      { label: useI18n().t('parts.views.design'), value: ViewType.Design, attributeNumber: '' },
+      { label: useI18n().t('parts.views.manufacturing'), value: ViewType.Manufacturing, attributeNumber: '' },
+    ],
+  }),
   getters: {
     i18nOptions(state): ViewTypeOption[] {
-      state = [
+      state.viewTypes = [
         { label: useI18n().t('parts.views.design'), value: ViewType.Design, attributeNumber: '' },
         { label: useI18n().t('parts.views.manufacturing'), value: ViewType.Manufacturing, attributeNumber: '' },
       ];
-      return state;
+      return state.viewTypes;
     },
   },
 });
-
-export default ViewTypeOptionsStore;

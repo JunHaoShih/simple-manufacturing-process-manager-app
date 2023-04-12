@@ -12,7 +12,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/modules/parts/PartCenterPage.vue'),
         props: true,
         children: [
-          { path: '/parts/:id/info', component: () => import('src/modules/parts/PartInfoPage.vue'), props: true },
+          { path: '/parts/:id/info', component: () => import('src/modules/parts/PartInfoEditPage.vue'), props: true },
+        ],
+      },
+      {
+        path: '/parts/version/:id',
+        component: () => import('src/modules/parts/PartVersionCenterPage.vue'),
+        props: true,
+        children: [
+          { path: '/parts/version/:id/info', component: () => import('src/modules/parts/PartInfoPage.vue'), props: true },
         ],
       },
       {

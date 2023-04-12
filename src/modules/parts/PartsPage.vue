@@ -25,12 +25,29 @@
       <!-- action buttons -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn dense round flat
-            color="grey" icon="edit"></q-btn>
-          <q-btn dense round flat
-            color="grey" icon="delete"></q-btn>
-          <q-btn dense round flat @click="onInfoClicked(props.row as Part)"
-            color="grey" icon="info"></q-btn>
+          <q-btn
+            dense
+            round
+            flat
+            color="grey"
+            icon="edit"
+            @click="onEditClicked(props.row as Part)"
+          />
+          <q-btn
+            dense
+            round
+            flat
+            color="grey"
+            icon="delete"
+          />
+          <q-btn
+            dense
+            round
+            flat
+            color="grey"
+            icon="info"
+            @click="onInfoClicked(props.row as Part)"
+          />
         </q-td>
       </template>
       <!-- is checkout -->
@@ -186,7 +203,14 @@ export default class PartsPage extends Vue {
   }
 
   onInfoClicked(part: Part): void {
-    this.$router.push(`parts/${part.version.id}/info`);
+    this.$router.push(`parts/version/${part.version.id}/info`);
+  }
+
+  onEditClicked(part: Part): void {
+    if (!part.checkout) {
+      // TODO show dialog to checkout
+    }
+    this.$router.push(`parts/${part.id}/info`);
   }
 
   onSearchEnter(): void {
