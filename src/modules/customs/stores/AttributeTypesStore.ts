@@ -13,7 +13,7 @@ const AttributeTypesStore = defineStore('attributeTypes', {
   getters: {
     i18nOptions(state): AttributeTypeOption[] {
       state.types = [
-        { label: useI18n().t('customs.attributes.types.string'), value: AttributeType.String },
+        { label: useI18n().t('customs.attributes.types.string'), value: AttributeType.String, attributeNumber: '' },
       ];
       return state.types;
     },
