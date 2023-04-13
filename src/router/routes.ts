@@ -21,6 +21,7 @@ const routes: RouteRecordRaw[] = [
         props: true,
         children: [
           { path: '/parts/version/:id/info', component: () => import('src/modules/parts/PartInfoPage.vue'), props: true },
+          { path: '/parts/version/:id/usages', component: () => import('src/modules/partUsages/PartUsagesPage.vue'), props: true },
         ],
       },
       {
