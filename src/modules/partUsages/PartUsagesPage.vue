@@ -8,9 +8,11 @@
       <template v-slot:before>
         <div class="q-pa-md q-gutter-sm">
           <q-tree
+          ref="qtree"
             :nodes="usesStore.treeNodes"
-            node-key="label"
+            node-key="id"
             @lazy-load="onLazyLoad"
+            :default-expand-all="true"
           />
         </div>
       </template>
@@ -25,8 +27,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-facing-decorator';
-import { useQuasar } from 'quasar';
+import {
+  Component, Prop, Ref, Vue,
+} from 'vue-facing-decorator';
+import { QTree, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { PartUsageUsesStore } from './stores/PartUsageUsesStore';
 import { PartUsageService } from './services/PartUsageService';
@@ -35,6 +39,8 @@ import { PartVersionStore } from '../parts/stores/PartVersionStore';
 @Component({})
 export default class PartUsagesPage extends Vue {
   @Prop id = 0;
+
+  @Ref qtree!: QTree;
 
   i18n = useI18n();
 
@@ -56,34 +62,17 @@ export default class PartUsagesPage extends Vue {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  onLazyLoad(details: {
+  async onLazyLoad(details: {
     node: any,
     key: string,
     done: (children?: readonly any[] | undefined) => void,
     fail: () => void,
   }) {
-    // TODO
-    console.log(details.key);
-    setTimeout(() => {
-      // simulate loading and setting an empty node
-      if (details.key.indexOf('Lazy load empty') > -1) {
-        details.done([]);
-        return;
-      }
-
-      const { label } = details.node;
-      details.done([
-        { label: `${label}.1` },
-        { label: `${label}.2`, lazy: true },
-        {
-          label: `${label}.3`,
-          children: [
-            { label: `${label}.3.1`, lazy: true },
-            { label: `${label}.3.2`, lazy: true },
-          ],
-        },
-      ]);
-    }, 1000);
+    const uses = await this.partUsageService.getByParentVersionId(details.node.versionId);
+    if (uses) {
+      this.usesStore.addUses(uses);
+      details.done([]);
+    }
   }
 }
 </script>
