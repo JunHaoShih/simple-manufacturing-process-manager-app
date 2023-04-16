@@ -29,19 +29,6 @@
             <ValidationInput v-model="createPartStore.name"
               :inputValidator="partValidationService.checkNameRules"
             />
-            <div class="row">
-              <q-checkbox
-                left-label
-                v-model="createPartStore.isEndItem"
-                :label="$t('parts.endItem')"
-              />
-              <q-checkbox
-                left-label
-                v-model="createPartStore.isPhantom"
-                :label="$t('parts.phantom')"
-                class="q-ml-md"
-              />
-            </div>
             <div>
               <div class="q-ma-sm">{{ $t('parts.view') }}</div>
               <q-select
@@ -50,24 +37,6 @@
                 v-model="viewTypeOption"
                 :options="viewTypeOptionsStore.i18nOptions"
                 @update:modelValue="onViewTypeUpdated" />
-            </div>
-            <div>
-              <div class="q-ma-sm">{{ $t('source') }}</div>
-              <q-select
-                filled
-                dense
-                v-model="sourceOption"
-                :options="sourcesStore.options"
-                @update:modelValue="onSourceTypeUpdated" />
-            </div>
-            <div>
-              <div class="q-ma-sm">{{ $t('unit') }}</div>
-              <q-select
-                filled
-                dense
-                v-model="unitOption"
-                :options="unitsStore.options"
-                @update:modelValue="onUnitTypeUpdated" />
             </div>
             <div class="column">
               <div class="q-ma-sm">{{ $t('remarks') }}</div>
@@ -132,11 +101,7 @@ import { QDialog, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import { SelectOption } from 'src/models/SelectOption';
 import { AttributeLinksStore } from 'src/modules/customs/stores/AttributeLinksStore';
-import { SourceOption } from 'src/modules/sources/models/Source';
 import ValidationInput from 'src/components/ValidationInput.vue';
-import { SourcesStore } from 'src/modules/sources/stores/SourcesStore';
-import { UnitsStore } from 'src/modules/units/stores/UnitsStore';
-import { UnitOption } from 'src/modules/units/models/Unit';
 import { CustomOption, DisplayType } from 'src/modules/customs/models/CustomAttribute';
 import PartValidationService from '../services/PartValidateService';
 import { CreatePartStore } from '../stores/CreatePartStore';
@@ -152,10 +117,6 @@ export type CustomSelectOption = SelectOption<CustomOption>;
 })
 export default class PartDialog extends Vue {
   i18n = useI18n();
-
-  sourcesStore = SourcesStore();
-
-  unitsStore = UnitsStore();
 
   createPartStore = CreatePartStore();
 
@@ -173,10 +134,6 @@ export default class PartDialog extends Vue {
 
   viewTypeOption = {} as ViewTypeOption;
 
-  sourceOption = {} as SourceOption;
-
-  unitOption = {} as UnitOption;
-
   createdPart = {} as Part;
 
   infoExpanded = true;
@@ -193,24 +150,9 @@ export default class PartDialog extends Vue {
     this.createPartStore.viewType = value.value;
   }
 
-  onSourceTypeUpdated(value: SourceOption) {
-    this.createPartStore.sourceId = value.value;
-  }
-
-  onUnitTypeUpdated(value: UnitOption) {
-    this.createPartStore.unitId = value.value;
-  }
-
   async created() {
     const option = this.viewTypeOptionsStore.i18nOptions[0];
     this.viewTypeOption = option;
-    await this.sourcesStore.init();
-    // eslint-disable-next-line prefer-destructuring
-    const so = this.sourcesStore.options[0];
-    this.sourceOption = so;
-    await this.unitsStore.init();
-    const uo = this.unitsStore.options[0];
-    this.unitOption = uo;
     this.createPartStore.customValues = Object.fromEntries(this.attrLinksStore.content.attributes.map((attr) => [attr.number, '']));
     for (let i = 0; i < this.attrLinksStore.content.attributes.length; i += 1) {
       const attr = this.attrLinksStore.content.attributes[i];
@@ -252,9 +194,7 @@ export default class PartDialog extends Vue {
   }
 
   onSelectOptionUpdated(selectOption: SelectOption<string>) {
-    console.log(selectOption.value);
     this.createPartStore.customValues[selectOption.attributeNumber] = selectOption.value;
-    console.log(this.createPartStore.customValues);
   }
 }
 </script>

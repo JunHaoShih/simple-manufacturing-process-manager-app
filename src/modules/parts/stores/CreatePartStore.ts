@@ -10,12 +10,7 @@ export const CreatePartStore = defineStore('createPart', {
   state: (): CreatePartDTO => ({
     number: '',
     name: '',
-    isEndItem: false,
-    isPhantom: false,
     viewType: ViewType.Design,
-    viewSubtypeId: 1,
-    sourceId: 1,
-    unitId: 1,
     remarks: '',
     customValues: {},
   }),

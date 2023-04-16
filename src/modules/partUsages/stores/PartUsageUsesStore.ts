@@ -15,13 +15,12 @@ const getSubTreeNodes = (mapValue: Map<number, PartUsageUses>, wholeMap: Map<num
   mapValue.forEach((value) => {
     const currentNode: QTreeNode = {
       id: idCounter,
-      label: `${value.uses.number} - ${value.uses.version.iteration}.${value.uses.version.revision}`,
+      label: `${value.uses.number} - ${value.uses.version.version}`,
       icon: 'settings',
       versionId: value.uses.version.id,
       usageId: value.id,
       lazy: true,
     };
-    console.log(`Counter: ${idCounter}`);
     idCounter += 1;
     const children = wholeMap.get(value.uses.version.id);
     if (children) {
@@ -46,7 +45,7 @@ const getTreeNodes = (uses: Map<number, Map<number, PartUsageUses>>, root: PartV
   }
   const rootNode: QTreeNode = {
     id: idCounter,
-    label: `${root.master.number} - ${root.iteration}.${root.revision}`,
+    label: `${root.master.number} - ${root.version}`,
     versionId: root.id,
     usageId: 0,
     icon: 'settings',
@@ -74,7 +73,6 @@ export const PartUsageUsesStore = defineStore('partUsageUses', {
           icon: 'room_service',
         }];
       }
-      console.log('Test');
       const rootNode = getTreeNodes(state.uses, state.root);
       return rootNode;
     },

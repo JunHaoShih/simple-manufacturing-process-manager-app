@@ -59,8 +59,6 @@ export default class PartInfoEditPage extends Vue {
 
   async onSaveClicked(): Promise<void> {
     const code = await this.partVersionService.update(this.partVersionStore.content.id, {
-      sourceId: this.partVersionStore.content.sourceId,
-      unitId: this.partVersionStore.content.unitId,
       customValues: this.partVersionStore.content.customValues,
       remarks: this.partVersionStore.content.remarks,
     });

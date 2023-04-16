@@ -9,8 +9,7 @@ export const PartVersionStore = defineStore('partVersion', {
   state: (): PartVersionContainer => ({
     content: {
       id: 0,
-      iteration: 0,
-      revision: 0,
+      version: 0,
       checkout: false,
       master: {} as PartMaster,
       customValues: {} as Record<string, string>,

@@ -23,21 +23,6 @@
               :inputValidator="partValidationService.checkNameRules"
               :readonly="true"
             />
-            <div class="row">
-              <q-checkbox
-                left-label
-                v-model="partVersion.master.isEndItem"
-                :label="$t('parts.endItem')"
-                :disable="true"
-              />
-              <q-checkbox
-                left-label
-                v-model="partVersion.master.isPhantom"
-                :label="$t('parts.phantom')"
-                class="q-ml-md"
-                :disable="true"
-              />
-            </div>
             <div>
               <div class="q-ma-sm">{{ $t('parts.view') }}</div>
               <q-select
@@ -46,26 +31,6 @@
                 v-model="viewTypeOption"
                 :options="viewTypeOptionsStore.i18nOptions"
                 :readonly="true"
-              />
-            </div>
-            <div>
-              <div class="q-ma-sm">{{ $t('source') }}</div>
-              <q-select
-                filled
-                dense
-                v-model="sourceOption"
-                :options="sourcesStore.options"
-                :readonly="readonly"
-              />
-            </div>
-            <div>
-              <div class="q-ma-sm">{{ $t('unit') }}</div>
-              <q-select
-                filled
-                dense
-                v-model="unitOption"
-                :options="unitsStore.options"
-                :readonly="readonly"
               />
             </div>
             <div class="column">
@@ -131,10 +96,6 @@ import 'src/extensions/date.extensions';
 import ValidationInput from 'src/components/ValidationInput.vue';
 import { SelectOption } from 'src/models/SelectOption';
 import { AttributeLinksStore } from 'src/modules/customs/stores/AttributeLinksStore';
-import { SourcesStore } from 'src/modules/sources/stores/SourcesStore';
-import { UnitsStore } from 'src/modules/units/stores/UnitsStore';
-import { SourceOption } from 'src/modules/sources/models/Source';
-import { UnitOption } from 'src/modules/units/models/Unit';
 import { CustomOption, DisplayType } from 'src/modules/customs/models/CustomAttribute';
 import { ViewTypeOptionsStore } from '../stores/ViewTypeOptionsStore';
 import PartValidationService from '../services/PartValidateService';
@@ -153,11 +114,8 @@ export default class PartInfoPanel extends Vue {
 
   @Model partVersion: PartVersion = {
     id: 0,
-    iteration: 0,
-    revision: 0,
+    version: 0,
     checkout: false,
-    sourceId: 0,
-    unitId: 0,
     master: {} as PartMaster,
     customValues: {} as Record<string, string>,
     createUser: '',
@@ -175,10 +133,6 @@ export default class PartInfoPanel extends Vue {
 
   viewTypeOptionsStore = ViewTypeOptionsStore();
 
-  sourcesStore = SourcesStore();
-
-  unitsStore = UnitsStore();
-
   partValidationService = PartValidationService;
 
   infoExpanded = true;
@@ -187,31 +141,15 @@ export default class PartInfoPanel extends Vue {
 
   viewTypeOption = {} as ViewTypeOption;
 
-  sourceOption: SourceOption = {
-    label: '',
-    value: 0,
-    attributeNumber: '',
-  };
-
-  unitOption: UnitOption = {
-    label: '',
-    value: 0,
-    attributeNumber: '',
-  };
-
   readonly SingleSelect = DisplayType.SingleSelect;
 
   middleCustomOptions: Record<number, string> = {};
 
-  async created() {
+  created() {
     this.$q.loading.show({
       delay: 300,
     });
-    await Promise.all([
-      this.viewTypeInit(),
-      this.sourceInit(),
-      this.unitInit(),
-    ]);
+    this.viewTypeInit();
     for (let i = 0; i < this.attrLinksStore.content.attributes.length; i += 1) {
       const attr = this.attrLinksStore.content.attributes[i];
       if (attr.displayType === DisplayType.SingleSelect) {
@@ -231,32 +169,6 @@ export default class PartInfoPanel extends Vue {
     } else {
       const option = this.viewTypeOptionsStore.i18nOptions[0];
       this.viewTypeOption = option;
-    }
-  }
-
-  async sourceInit(): Promise<void> {
-    await this.sourcesStore.init();
-    const targetSource = this.sourcesStore.options.find(
-      (source) => source.value === this.partVersion.sourceId,
-    );
-    if (targetSource) {
-      this.sourceOption = targetSource;
-    } else {
-      const so = this.sourcesStore.options[0];
-      this.sourceOption = so;
-    }
-  }
-
-  async unitInit(): Promise<void> {
-    await this.unitsStore.init();
-    const targetUnit = this.unitsStore.options.find(
-      (unit) => unit.value === this.partVersion.unitId,
-    );
-    if (targetUnit) {
-      this.unitOption = targetUnit;
-    } else {
-      const uo = this.unitsStore.options[0];
-      this.unitOption = uo;
     }
   }
 

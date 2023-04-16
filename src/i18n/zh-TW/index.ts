@@ -35,8 +35,6 @@ export default {
     routing: '產品途程',
     number: '料號',
     name: '料件名稱',
-    endItem: '最終項目',
-    phantom: '虛擬件',
     view: 'View',
     views: {
       design: '設計',
@@ -75,8 +73,6 @@ export default {
   },
   iterable: {
     version: '版本',
-    iteration: '迭代版本',
-    revision: '修訂版本',
     checkout: '出庫',
   },
   validations: {
@@ -102,8 +98,6 @@ export default {
       invalidChar: '不可含有任何非法字元',
     },
   },
-  source: '來源',
-  unit: '單位',
   remarks: '備註',
   language: '語言',
   info: '資訊',

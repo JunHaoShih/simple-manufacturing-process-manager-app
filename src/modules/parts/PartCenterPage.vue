@@ -7,7 +7,7 @@
       <div class="text-h6 row">
         <div>{{ partVersion.master.number }}</div>
         <div>
-          [{{ partVersion.iteration }}.{{ partVersion.revision }}]
+          [{{ partVersion.version }}]
         </div>
         <div v-if="partVersion.master.viewType === Design">
           [{{ $t('parts.views.design') }}]
@@ -64,10 +64,7 @@ export default class PartCenterPage extends Vue {
 
   partVersion: PartVersion = {
     id: 0,
-    iteration: 0,
-    revision: 0,
-    sourceId: 0,
-    unitId: 0,
+    version: 0,
     checkout: false,
     master: {} as PartMaster,
     customValues: {} as Record<string, string>,

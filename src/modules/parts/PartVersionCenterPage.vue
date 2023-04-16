@@ -7,7 +7,7 @@
       <div class="text-h6 row">
         <div>{{ partVersionStore.content.master.number }}</div>
         <div>
-          [{{ partVersionStore.content.iteration }}.{{ partVersionStore.content.revision }}]
+          [{{ partVersionStore.content.version }}]
         </div>
         <div v-if="partVersionStore.content.master.viewType === Design">
           [{{ $t('parts.views.design') }}]

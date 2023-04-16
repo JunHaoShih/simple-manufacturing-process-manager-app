@@ -5,18 +5,13 @@ export interface PartMaster {
   id: number,
   number: string,
   name: string,
-  isEndItem: boolean,
-  isPhantom: boolean,
   viewType: ViewType,
-  viewSubtypeId: number,
+  checkout: boolean,
 }
 
 export interface PartVersion extends ReturnBase {
-  iteration: number,
-  revision: number,
+  version: number,
   checkout: boolean,
-  sourceId: number,
-  unitId: number,
   master: PartMaster,
   customValues: Record<string, string>,
 }

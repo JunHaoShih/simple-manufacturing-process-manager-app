@@ -11,7 +11,7 @@ const PartsStore = defineStore('parts', {
   }),
   getters: {
     getVersion: (state) => (partVersion: PartVersionInfo): string => {
-      const versionStr = `${partVersion.iteration}.${partVersion.revision}`;
+      const versionStr = `${partVersion.version}`;
       return versionStr;
     },
     isInitialized: (state) => (part: Part): boolean => {

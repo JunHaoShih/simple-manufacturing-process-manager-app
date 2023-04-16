@@ -35,8 +35,6 @@ export default {
     routing: 'Routing',
     number: 'Number',
     name: 'Name',
-    endItem: 'End item',
-    phantom: 'Phantom',
     view: 'View',
     views: {
       design: 'Design',
@@ -75,8 +73,6 @@ export default {
   },
   iterable: {
     version: 'Version',
-    iteration: 'Iteration',
-    revision: 'Revision',
     checkout: 'Checkout',
   },
   validations: {
@@ -101,8 +97,6 @@ export default {
       invalidChar: 'Only number, alphabets, dash and underscore are valid',
     },
   },
-  source: 'Source',
-  unit: 'Unit',
   remarks: 'Remarks',
   language: 'Language',
   key: 'Key',

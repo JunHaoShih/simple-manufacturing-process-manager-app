@@ -4,11 +4,6 @@ export interface CreatePartDTO {
   number: string,
   name: string,
   remarks: string,
-  isEndItem: boolean,
-  isPhantom: boolean,
   viewType: ViewType,
-  viewSubtypeId: number,
-  sourceId: number,
-  unitId: number,
   customValues: Record<string, string>,
 }
