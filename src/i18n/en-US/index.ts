@@ -40,6 +40,7 @@ export default {
       design: 'Design',
       manufacturing: 'Manufacturing',
     },
+    bom: 'BOM',
     info: 'Information',
     new: 'New part',
   },

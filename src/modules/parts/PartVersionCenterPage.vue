@@ -35,7 +35,7 @@
         exact
       />
       <q-route-tab
-        :label="$t('parts.info')"
+        :label="$t('parts.bom')"
         :to="'/parts/version/' + id + '/usages'"
         exact
       />
