@@ -61,8 +61,6 @@ export default class AttributeLinksPage extends Vue {
 
   objectTypeService = ObjectTypeService;
 
-  readonly = true;
-
   async created(): Promise<void> {
     const objType = await this.objectTypeService.getAll();
     if (objType) {

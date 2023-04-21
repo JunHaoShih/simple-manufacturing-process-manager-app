@@ -29,7 +29,7 @@ export default class ValidationInput extends Vue {
   @Prop({
     required: false,
   })
-  readonly inputValidator?: ((val: string) => string);
+  readonly inputValidator?: ((val: string) => string | undefined);
 
   errorMessage = '';
 
