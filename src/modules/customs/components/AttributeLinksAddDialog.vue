@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Prop, Ref, Vue, Watch,
+  Component, Emit, Model, Prop, Ref, Vue, Watch,
 } from 'vue-facing-decorator';
 import { QDialog, QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -82,6 +82,11 @@ export default class AttributeLinksAddDialog extends Vue {
   attrLinkService = AttributeLinkService;
 
   @Model prompt = false;
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.prompt;
+  }
 
   @Prop({
     required: true,

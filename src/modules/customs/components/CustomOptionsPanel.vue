@@ -80,7 +80,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Prop, Ref, Vue,
+  Component, Emit, Model, Prop, Ref, Vue,
 } from 'vue-facing-decorator';
 import { QDialog, QTableProps, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -114,6 +114,11 @@ export default class CustomOptionsPanel extends Vue {
   prompt = false;
 
   @Model inputOptions!: CustomOption[];
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.inputOptions;
+  }
 
   @Prop({
     required: true,

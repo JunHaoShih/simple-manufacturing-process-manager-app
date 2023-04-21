@@ -126,6 +126,11 @@ export default class PartDialog extends Vue {
 
   @Model prompt!: boolean;
 
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.prompt;
+  }
+
   errorMessage = '';
 
   partValidationService = PartValidationService;

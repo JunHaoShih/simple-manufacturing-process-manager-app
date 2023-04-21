@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Ref, Vue, Watch,
+  Component, Emit, Model, Ref, Vue, Watch,
 } from 'vue-facing-decorator';
 import { QDialog, useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -63,6 +63,11 @@ export default class CustomAttributeAddDialog extends Vue {
   availableLocales = AvailableLocales;
 
   @Model prompt!: boolean;
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.prompt;
+  }
 
   @Ref dialogRef!: QDialog;
 

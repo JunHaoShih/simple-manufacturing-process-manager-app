@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Prop, Vue,
+  Component, Emit, Model, Prop, Vue,
 } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
 
@@ -33,15 +33,11 @@ export default class ValidationInput extends Vue {
 
   errorMessage = '';
 
-  @Model
-  // eslint-disable-next-line indent
-  inputValue!: string;
+  @Model inputValue!: string;
 
   @Prop({
     required: false,
-  })
-  // eslint-disable-next-line indent
-  readonly? = true;
+  }) readonly? = true;
 
   isValueError(): boolean {
     if (!this.inputValidator) {
@@ -57,6 +53,11 @@ export default class ValidationInput extends Vue {
 
   get i18nErrorMessage() {
     return this.i18n.t(this.errorMessage);
+  }
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.inputValue;
   }
 }
 </script>

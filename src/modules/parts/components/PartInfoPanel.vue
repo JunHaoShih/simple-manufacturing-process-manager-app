@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Prop, Vue,
+  Component, Emit, Model, Prop, Vue,
 } from 'vue-facing-decorator';
 import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -124,6 +124,11 @@ export default class PartInfoPanel extends Vue {
     updateDate: new Date(),
     remarks: '',
   };
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.partVersion;
+  }
 
   i18n = useI18n();
 

@@ -99,7 +99,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Prop, Vue, Watch,
+  Component, Emit, Model, Prop, Vue, Watch,
 } from 'vue-facing-decorator';
 import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
@@ -150,6 +150,11 @@ export default class CustomAttributePanel extends Vue {
 
   created(): void {
     this.initialize();
+  }
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.inputAttr;
   }
 
   @Watch('inputAttr.id')

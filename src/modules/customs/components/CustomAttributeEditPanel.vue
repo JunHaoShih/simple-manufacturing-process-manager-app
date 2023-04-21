@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import {
-  Component, Model, Vue, Watch,
+  Component, Emit, Model, Vue, Watch,
 } from 'vue-facing-decorator';
 import { useQuasar } from 'quasar';
 import { useI18n } from 'vue-i18n';
@@ -69,6 +69,11 @@ export default class CustomAttributeEditPanel extends Vue {
 
   created(): void {
     this.initialize();
+  }
+
+  @Emit('update:modelValue')
+  updateModelValue() {
+    return this.inputAttr;
   }
 
   @Watch('inputAttr.id')
