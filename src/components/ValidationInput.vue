@@ -51,8 +51,9 @@ export default class ValidationInput extends Vue {
     return false;
   }
 
-  get i18nErrorMessage() {
-    return this.i18n.t(this.errorMessage);
+  get i18nErrorMessage(): string {
+    const message = this.errorMessage ? this.i18n.t(this.errorMessage) : '';
+    return message;
   }
 
   @Emit('update:modelValue')

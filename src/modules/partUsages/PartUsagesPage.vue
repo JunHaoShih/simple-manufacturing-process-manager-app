@@ -30,9 +30,8 @@
 import {
   Component, Prop, Ref, Vue,
 } from 'vue-facing-decorator';
-import { QTree, useQuasar } from 'quasar';
-import { useI18n } from 'vue-i18n';
-import { PartUsageUsesStore } from './stores/PartUsageUsesStore';
+import { QTree } from 'quasar';
+import { BomTreeNode, PartUsageUsesStore } from './stores/PartUsageUsesStore';
 import { PartUsageService } from './services/PartUsageService';
 import { PartVersionStore } from '../parts/stores/PartVersionStore';
 
@@ -41,10 +40,6 @@ export default class PartUsagesPage extends Vue {
   @Prop id = 0;
 
   @Ref qtree!: QTree;
-
-  i18n = useI18n();
-
-  $q = useQuasar();
 
   splitterModel = 50;
 
@@ -61,11 +56,10 @@ export default class PartUsagesPage extends Vue {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async onLazyLoad(details: {
-    node: any,
+    node: BomTreeNode,
     key: string,
-    done: (children?: readonly any[] | undefined) => void,
+    done: (children?: readonly BomTreeNode[] | undefined) => void,
     fail: () => void,
   }) {
     const uses = await this.partUsageService.getByParentVersionId(details.node.versionId);

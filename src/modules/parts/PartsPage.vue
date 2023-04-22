@@ -120,7 +120,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-facing-decorator';
-import { QTableProps, useQuasar } from 'quasar';
+import { QTableProps } from 'quasar';
 import { useI18n } from 'vue-i18n';
 import PartService from './services/PartService';
 import { Part, ViewType } from './models/Part';
@@ -145,8 +145,6 @@ export default class PartsPage extends Vue {
   attrLinksStore = AttributeLinksStore();
 
   partsStore = PartsStore();
-
-  $q = useQuasar();
 
   prompt = false;
 

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { PartVersion, PartMaster } from '../models/PartVersion';
+import { PartVersion } from '../models/PartVersion';
+import { ViewType } from '../models/Part';
 
 interface PartVersionContainer {
   content: PartVersion
@@ -11,7 +12,13 @@ export const PartVersionStore = defineStore('partVersion', {
       id: 0,
       version: 0,
       checkout: false,
-      master: {} as PartMaster,
+      master: {
+        id: 0,
+        number: '',
+        name: '',
+        viewType: ViewType.Design,
+        checkout: false,
+      },
       customValues: {} as Record<string, string>,
       createUser: '',
       createDate: new Date(),

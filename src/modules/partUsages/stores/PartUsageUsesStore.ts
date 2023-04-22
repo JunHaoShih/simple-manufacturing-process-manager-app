@@ -3,9 +3,15 @@ import { QTreeNode, QTreeProps } from 'quasar';
 import { PartVersion } from 'src/modules/parts/models/PartVersion';
 import { PartUsageUses } from '../models/PartUsageUses';
 
-export interface PartUsageUsesContainer {
+interface PartUsageUsesContainer {
   uses: Map<number, Map<number, PartUsageUses>>,
   root: PartVersion,
+}
+
+export interface BomTreeNode extends QTreeNode {
+  id: number,
+  versionId: number,
+  childId: number,
 }
 
 let idCounter = 0;
@@ -13,12 +19,12 @@ let idCounter = 0;
 const getSubTreeNodes = (mapValue: Map<number, PartUsageUses>, wholeMap: Map<number, Map<number, PartUsageUses>>): QTreeProps['nodes'] => {
   const nodes = [] as QTreeNode[];
   mapValue.forEach((value) => {
-    const currentNode: QTreeNode = {
+    const currentNode: BomTreeNode = {
       id: idCounter,
       label: `${value.uses.number} - ${value.uses.version.version}`,
       icon: 'settings',
       versionId: value.uses.version.id,
-      usageId: value.id,
+      childId: value.id,
       lazy: true,
     };
     idCounter += 1;

@@ -10,8 +10,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-facing-decorator';
-import { useQuasar } from 'quasar';
-import { useI18n } from 'vue-i18n';
 import 'src/extensions/date.extensions';
 import ValidationInput from 'src/components/ValidationInput.vue';
 import { PartVersionStore } from './stores/PartVersionStore';
@@ -25,12 +23,6 @@ import PartInfoPanel from './components/PartInfoPanel.vue';
 })
 export default class PartInfoPage extends Vue {
   @Prop id = '';
-
-  @Prop readonly = true;
-
-  i18n = useI18n();
-
-  $q = useQuasar();
 
   partVersionStore = PartVersionStore();
 }
